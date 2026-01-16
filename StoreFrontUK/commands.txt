@@ -1,0 +1,17 @@
+netstat -ano | findstr :<port>
+taskkill /PID <port> /F
+
+function prompt {
+  "$([System.IO.Path]::GetFileName((Get-Location)))> "
+}
+
+docker run -it \
+    -e "ACCEPT_EULA=Y" \
+    -e "SA_PASSWORD=Jesus_Is_King1412" \
+    -p 14330:1433 \
+    --name sql-server-2022 \
+    mcr.microsoft.com/mssql/server:2022-latest
+
+
+// "CustomerDb": "Server=sql-server;Database=CustomerDb;User Id=sa;Password=!JesusIsKing1412!;Encrypt=False;TrustServerCertificate=True;"
+

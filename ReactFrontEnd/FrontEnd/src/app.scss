@@ -1,0 +1,344 @@
+
+
+$primary: #008B74;
+$secondary: #FFD166;
+
+//syntax colours
+$syntax-blue:        #0e263a;
+$syntax-orange:      #c14e1d;
+$syntax-green:       #2f730a;
+$syntax-muted-green: #6a9955;
+$syntax-yellow:      #808002;
+
+// Weirdly importing the style second
+@import "bootstrap/scss/bootstrap";
+
+body{
+  font-family: Lora;
+}
+// Extend Bootstrap's navbar
+.navbar {
+  &.navbar-vertical {
+    position: fixed;                // Takes out of the document flow so content isn't pushed down
+    flex-direction: column;         
+    // align-items: flex-start;
+    // justify-content: flex-start;
+    padding: 10px;
+    height: 100vh; // full height sidebar
+    width: 250px;  // fixed width
+
+    // Mobile overrides
+    @media (max-width: 991.98px) {
+      width: 100%;       // full width when collapsed
+      position: relative; // behaves like a top navbar
+      height: auto;
+    }
+  }
+}
+
+.navbar-vertical .navbar-collapse {
+  width: 100%;       /* take full width of parent */
+  flex-grow: 0;      /* don’t try to expand horizontally */
+  flex-basis: auto;  /* respect the parent’s fixed width */
+}
+
+.navbar-vertical .nav {
+  width: 100%;
+}
+
+.navbar-vertical .nav-item {
+  width: 100%;
+}
+
+.navbar-collapse {
+    &.navbar-collapse-align-start{
+        align-items: flex-start;
+    }
+}
+
+@media (min-width: 992px) {
+  .content {
+    margin-left: 250px;
+    padding:1rem;
+  }
+}
+ 
+@media (max-width: 992px) {
+  .content {
+    justify-content:center;  
+  }
+}
+
+@mixin mt-rem($value) {
+  margin-top: $value + 1rem; // ensures it's treated as a percentage
+}
+
+.mt-3-rem{
+    @include mt-rem(3);
+}
+
+.flex-card-header{
+    @extend .d-flex;
+    @extend .card-header;
+}
+
+.flex-card-header-rounded{
+    @extend .flex-card-header;
+    @extend .rounded;
+}
+
+.btn-secondary-new{
+    background-color: $secondary;
+    &:hover {
+        background-color: darken($secondary, 10%); // slightly darker teal
+        cursor: pointer;
+    }
+}
+
+.center-xy{
+    @extend .justify-content-between; 
+    @extend .align-items-center;
+}
+
+.code-window {
+  background-color: #05731b; /* VS Code dark background */
+  color: #d4d4d4;           /* Default text color */
+  font-family: "Fira Code", Consolas, "Courier New", monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  border-radius: 6px;
+  overflow: auto;
+  padding: 1rem;
+  max-width: min-content;
+  //box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+/* Header bar like VS Code tabs */
+.code-window-header {
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #3c3c3c;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  color: #cccccc;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+
+}
+
+.scrollable-parent {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* or 100vh, or a fixed px height */
+}
+
+.my-scrollable-div {
+  flex: 1;          /* take remaining space */
+  overflow-y: auto; /* scroll when needed */
+}
+
+.annotations.dot {
+  z-index: 9999;  
+}
+
+/* Annotations Bubble */
+.annotation-bubble {
+  z-index: 9999;                        
+  min-width: 300px;            
+  max-width: 600px;
+}
+
+.bubble {
+  background: #413ee8;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+  position: relative;
+  color:rgb(248, 255, 248);
+  font-weight: bold;
+  opacity: 0.2;
+}
+
+/* Arrow base */
+.bubble::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+/* Arrow directions */
+.bubble-arrow-left::after {
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%);
+  border-width: 8px 10px 8px 0;
+  border-color: transparent #3a19b3 transparent transparent;
+}
+
+.bubble-arrow-right::after {
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  border-width: 8px 0 8px 10px;
+  border-color: transparent #3a19b3 transparent transparent;
+}
+
+.bubble-arrow-top::after {
+  top: -10px;
+  left: 20px;
+  border-width: 0 8px 10px 8px;
+  border-color: transparent #3a19b3 transparent transparent;
+}
+
+.bubble-arrow-bottom::after {
+  bottom: -10px;
+  left: 20px;
+  border-width: 10px 8px 0 8px;
+  border-color: transparent #3a19b3 transparent transparent;
+}
+
+/* SLIDEOUT MENU */
+.slideout-menu{
+      @extend .text-white;
+      @extend .bg-primary;
+      @extend .mb-3;
+      @extend .p-2;   
+}
+
+/* HOOKS TAB   */
+.tab-header {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--bs-border-color);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: var(--bs-body-color);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+}
+
+.tab-btn.active {
+  border-bottom-color: var(--bs-primary);
+  color: var(--bs-primary);
+}
+
+.tab-btn:hover {
+  color: var(--bs-primary);
+}
+
+.tab-content {
+  padding: 0.5rem 0;
+}
+
+/*Phrase Game*/
+.letters-box{
+  border:2px solid $primary;
+  margin-left:2px; 
+  font-size: 1.2rem;
+  color: red;
+  width:25px;
+  height:25px;
+}
+
+.letters-box-space{
+  margin-left:2px; 
+  font-size: 1.2rem;
+  width:25px;
+  height:25px;
+}
+
+.mini-width{
+  width:100px;
+  text-align: center;
+}
+
+/* Scrollable Div */
+
+.scroll-container{
+      @extend .p-2;
+      @extend .mb-3;
+      @extend .rounded;
+      @extend .overflow-auto;
+      max-height:400px;
+}
+
+.list-group-item-action-blue{
+    @extend .list-group-item-action;
+    &:hover{
+      background-color: $syntax-muted-green!important; 
+      color: #f3f6f8!important;
+    }
+    &:focus {
+      background-color: $syntax-yellow!important; 
+      color: #f3f6f8!important;            
+    }
+}
+
+.vertical-scroll-700{
+  @extend .overflow-y-auto;
+  height: 700px;
+}
+
+/*------------------------------------------Highlight Popup--------------------------------------*/
+.highlight-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.highlight-modal {
+  max-height: 80vh;       /* keeps the modal inside the viewport */
+  overflow: hidden;       /* prevents the modal from scrolling */
+  @extend .bg-primary;
+  color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+}
+
+.highlight-modal pre {
+  max-height: 40vh;       /* or whatever height you want */
+  overflow: auto;         /* scrollbar appears here */
+  white-space: pre-wrap;  /* optional: wrap long lines */
+}
+
+/*---------------------------------------Spinner--------------------------------------*/
+
+.form-wrapper {
+  position: relative;
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10; /* sits above the form */
+  pointer-events: none; /* optional: lets clicks pass through */
+}
+
+
+.code-window {
+  .keyword  { color: $syntax-blue; }
+  .string   { color: $syntax-orange; }
+  .number   { color: $syntax-green; }
+  .comment  { color: $syntax-muted-green; }
+  .function { color: $syntax-yellow; }
+}

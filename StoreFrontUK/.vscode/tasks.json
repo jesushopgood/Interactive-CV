@@ -1,0 +1,70 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-customer-service",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Services/StoreFrontUK.Services.CustomerService/CustomerService.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-inventory-service",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Services/StoreFrontUK.Services.InventoryService/InventoryService.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-order-service",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Services/StoreFrontUK.Services.OrderService/OrderService.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-email-service",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Services/StoreFrontUK.Services.EmailService/EmailService.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "pick-service",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Services/StoreFrontUK.Services.PickService/PickService.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build",
+      "dependsOn": [
+        "build-customer-service",
+        "build-inventory-service",
+        "build-order-service",
+        "build-email-service",
+        "pick-service"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

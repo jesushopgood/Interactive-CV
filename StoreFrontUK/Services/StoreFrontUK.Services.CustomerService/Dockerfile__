@@ -1,0 +1,21 @@
+# Use the official .NET SDK image to build the app
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+
+WORKDIR /src
+
+# Copy the rest of the source code and build
+COPY . ./
+
+RUN dotnet restore ./StoreFrontUK.sln
+RUN dotnet publish ./Services/StoreFrontUK.Services.CustomerService/CustomerService.csproj -c Release -o /app/publish
+
+# Use the ASP.NET runtime image to run the app
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# Expose the port your app listens on (usually 80)
+EXPOSE 80
+
+# Start the app
+ENTRYPOINT ["dotnet", "CustomerService.dll"]

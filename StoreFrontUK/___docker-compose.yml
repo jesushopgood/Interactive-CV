@@ -1,0 +1,41 @@
+services:
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD="!JesusIsKing1412!"
+    volumes:
+      - sql-data:/var/opt/mssql/data
+
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 1433 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  customer-api:
+    build:
+      context: .
+      dockerfile: ./Services/StoreFrontUK.Services.CustomerService/Dockerfile
+    ports:
+      - "8080:80" # Maps container port 80 to localhost:8080
+    depends_on:
+      sql-server:
+          condition: service_healthy
+
+    environment:
+      - ConnectionStrings__CustomerDb=Server=sql-server;Database=CustomerDb;User=sa;Password="!JesusIsKing1412!";
+    networks:
+      - app-network
+
+volumes:
+  sql-data:
+
+networks:
+  app-network:
+    driver: bridge

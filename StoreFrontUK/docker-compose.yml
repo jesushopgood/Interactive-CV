@@ -1,0 +1,126 @@
+services:
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.12-management
+    ports:
+      - "5673:5672"   # AMQP exposed on 5673 locally
+      - "15673:15672" # Management UI exposed on 15673 locally
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  
+  sql-server_customer-api:
+    container_name: sql-server-customer-api
+    build:
+      context: .
+      dockerfile: ./Services/StoreFrontUK.Services.CustomerService/Dockerfile_sqlserver
+    ports:
+      - "14330:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Jesus_Is_King1412
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 1433 || exit 1"]
+      interval: 20s
+      timeout: 20s
+      retries: 3
+    networks:
+      - app-network
+
+  customer-api:
+    build:
+      context: .
+      dockerfile: ./Services/StoreFrontUK.Services.CustomerService/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - app-network
+    depends_on:
+      sql-server_customer-api:
+          condition: service_healthy
+
+  email-api:
+    build:
+      context: .
+      dockerfile: ./Services/StoreFrontUK.Services.EmailService/Dockerfile
+    ports:
+      - "8081:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - app-network
+
+  sql-server_inventory-api:
+    container_name: sql-server-inventory-api
+    build:
+      context: .
+      dockerfile: ./Services/StoreFrontUK.Services.InventoryService/Dockerfile_sqlserver
+    ports:
+      - "14331:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Jesus_Is_King1412
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 1433 || exit 1"]
+      interval: 20s
+      timeout: 20s
+      retries: 3
+    networks:
+      - app-network
+
+  inventory-api:
+    build:
+      context: .
+      dockerfile: ./Services/StoreFrontUK.Services.InventoryService/Dockerfile
+    ports:
+      - "8082:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - app-network
+    depends_on:
+      sql-server_inventory-api:
+          condition: service_healthy
+
+  sql-server-order-api:
+    container_name: sql-server-order-api
+    build:
+      context: .
+      dockerfile: ./Services/StoreFrontUK.Services.OrderService/Dockerfile_sqlserver
+    ports:
+      - "14332:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Jesus_Is_King1412
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 1433 || exit 1"]
+      interval: 20s
+      timeout: 20s
+      retries: 3
+    networks:
+      - app-network
+
+  order-api:
+    build:
+      context: .
+      dockerfile: ./Services/StoreFrontUK.Services.OrderService/Dockerfile
+    ports:
+      - "8083:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - app-network
+    depends_on:
+      sql-server-order-api:
+          condition: service_healthy
+
+networks:
+  app-network:
+    driver: bridge
