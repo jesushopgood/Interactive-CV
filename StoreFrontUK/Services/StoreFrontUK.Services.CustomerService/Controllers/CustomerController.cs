@@ -27,7 +27,6 @@ public class CustomerController : ControllerBase
     [HttpGet()]
     public async Task<IActionResult> GetAllCustomers()
     {
-        Console.WriteLine("Hit Customer");
         return Ok(await _mediatr.Send(new GetAllCustomersQuery()));
     }
 
@@ -55,5 +54,5 @@ public class CustomerController : ControllerBase
     public async Task<IActionResult> UpdateCustomer(UpdateCustomerDTO updateCustomerDTO)
     {
         return await Task.FromResult(Ok(_mediatr.Send(new UpdateCustomerCommand { Dto = updateCustomerDTO })));
-    } 
+    }
 }

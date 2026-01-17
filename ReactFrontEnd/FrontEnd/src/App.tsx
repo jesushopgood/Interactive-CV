@@ -8,6 +8,7 @@ import HooksWrapper from "./components/HookDemo/HooksWrapper";
 import CustomHooksWrapper from "./components/CustomHooks/CustomHooksWrapper";
 import TsJsWrapper from "./components/TS-JS/TsJsWrapper";
 import { useStore } from "./state";
+import StoreFrontWrapper from "./components/StoreFrontUK/StoreFrontWrapper";
 
 function App() {
 
@@ -51,6 +52,9 @@ function App() {
               <li className="nav-item list-group-item my-1">
                 <NavLink className="nav-link" to="TsJsWrapper">Ts-Js</NavLink>
               </li>
+              <li className="nav-item list-group-item my-1">
+                <NavLink className="nav-link" to="StoreFrontWrapper">StoreFront</NavLink>
+              </li>
             </ul>
           </div>
         </nav>
@@ -59,7 +63,8 @@ function App() {
             <Route path="PropsWrapper" element={<PropsWrapper />} />
             <Route path="HooksWrapper" element={<HooksWrapper />} /> 
             <Route path="CustomHooksWrapper" element={<CustomHooksWrapper />} />
-            <Route path="TsJsWrapper" element={<TsJsWrapper />} />    
+            <Route path="TsJsWrapper" element={<TsJsWrapper />} />
+            <Route path="StoreFrontWrapper" element={<StoreFrontWrapper />} />    
           </Route>
         </Routes>
     </BrowserRouter>

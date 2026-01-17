@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +24,11 @@ internal class Program
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -42,9 +47,22 @@ internal class Program
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddAutoMapper(typeof(CustomerMappingProfile));
 
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+
+                    });
+            });
 
             var app = builder.Build();
-            Console.WriteLine("Running migrations");
+            app.UseCors(MyAllowSpecificOrigins);
 
             using (var scope = app.Services.CreateScope())
             {
@@ -52,8 +70,6 @@ internal class Program
                 customerDb.Database.Migrate();
                 CustomerSeeder.Seed(customerDb);
             }
-
-            Console.WriteLine("Migrations Done");
 
             app.UseExceptionHandler(config =>
             {
@@ -95,10 +111,10 @@ internal class Program
             app.MapControllers();
             app.Run();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine($"ERROR ERROR ERROR = {ex.Message}");
         }
-        
+
     }
 }

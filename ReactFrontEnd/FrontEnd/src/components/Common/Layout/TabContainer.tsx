@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState, type JSX, type ReactNode } from "react";
 
 export interface TabDefinition {
   id: string;
@@ -7,11 +7,12 @@ export interface TabDefinition {
 }
 
 interface TabContainerProps {
-  tabs: TabDefinition[];
+  tabs?: TabDefinition[];
   initialTabId?: string;
+  children?: JSX.Element | JSX.Element[] | null;
 }
 
-export function TabContainer({ tabs, initialTabId }: TabContainerProps) {
+export function TabContainer({ tabs = [], initialTabId }: TabContainerProps) {
   const [activeTab, setActiveTab] = useState(
     initialTabId ?? tabs[0].id
   );
@@ -20,11 +21,8 @@ export function TabContainer({ tabs, initialTabId }: TabContainerProps) {
     <div className="tab-container">
       <div className="tab-header">
         {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            className={`tab-btn ${activeTab === tab.id ? "active" : ""}`}
-            onClick={() => setActiveTab(tab.id)}
-          >
+          <button  key={tab.id} className={`tab-btn ${activeTab === tab.id ? "active" : ""}`} 
+                    onClick={() => setActiveTab(tab.id)}>
             {tab.label}
           </button>
         ))}

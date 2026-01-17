@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type Employee from "../../entities/employee";
+import type Employee from "../../api/entities/employee";
 
 function YouseState(){
 

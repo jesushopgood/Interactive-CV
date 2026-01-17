@@ -15,9 +15,14 @@ import { LoggedInUserProvider, UseContextClient } from "./ContextApi/LoggedInUse
 import { UseReducerClient } from "./State/UseReducerDemo";
 import UseRefDemo, { UseRefClient } from "./UseRefDemo";
 import PhraseGame, { UseEffectClient } from "./UseEffectClient";
-import CodeSnippetCompound from "../Common/CodeSnippet/CompoundCodeSnippet";
 
-export default function HooksWrapper(){
+interface HooksWrapperProps
+{
+    children? : React.ReactNode;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function HooksWrapper(_: HooksWrapperProps){
     return (
         <div className="card-shadow p-2" id="context-wrapper">
             <div className="card-header mb-sm-4" > 

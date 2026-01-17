@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/Services/StoreFrontUK.Services.CustomerService/CustomerService.csproj"
+        "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.CustomerService/CustomerService.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -17,7 +17,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/Services/StoreFrontUK.Services.InventoryService/InventoryService.csproj"
+        "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.InventoryService/InventoryService.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -27,7 +27,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/Services/StoreFrontUK.Services.OrderService/OrderService.csproj"
+        "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.OrderService/OrderService.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -37,7 +37,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/Services/StoreFrontUK.Services.EmailService/EmailService.csproj"
+        "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.EmailService/EmailService.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -47,7 +47,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/Services/StoreFrontUK.Services.PickService/PickService.csproj"
+        "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.PickService/PickService.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
