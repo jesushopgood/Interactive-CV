@@ -16,7 +16,7 @@ public class GetProductQueryHandler : IRequestHandler<GetProductQuery, ProductDT
     }
     public async Task<ProductDTO?> Handle(GetProductQuery request, CancellationToken cancellationToken)
     {
-        var result = _mapper.Map<ProductDTO>(await _productRepository.GetById(request.Sku, p => p.Sku));
+        var result = _mapper.Map<ProductDTO>(await _productRepository.GetByIdAsync(request.Sku, p => p.Sku));
         return await Task.FromResult(result);
     }
 }

@@ -6,5 +6,7 @@ namespace StoreFrontUK.Services.CustomerService.Repository;
 
 public interface ICustomerRepository : IRepository<CustomerDbContext, Customer, string>
 {
-    Task<Customer> GetFullCustomer(string id);
+    Task<Customer?> GetFullCustomerAsync(string id);
+
+    Task<List<Customer>> GetAllCustomersAsync();
 }

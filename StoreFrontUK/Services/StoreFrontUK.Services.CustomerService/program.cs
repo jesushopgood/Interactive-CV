@@ -40,6 +40,8 @@ internal class Program
                     maxRetryCount: 5,
                     maxRetryDelay: TimeSpan.FromSeconds(10),
                     errorNumbersToAdd: null);
+
+                    sqlOptions.MigrationsAssembly(typeof(CustomerDbContext).Assembly.FullName);
                 });
             });
 
@@ -68,7 +70,9 @@ internal class Program
             {
                 var customerDb = scope.ServiceProvider.GetRequiredService<CustomerDbContext>();
                 customerDb.Database.Migrate();
+                Console.WriteLine("Hit Migrate.......");
                 CustomerSeeder.Seed(customerDb);
+                Console.WriteLine("Seed........");
             }
 
             app.UseExceptionHandler(config =>
@@ -113,7 +117,7 @@ internal class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"ERROR ERROR ERROR = {ex.Message}");
+            Console.WriteLine($"ERROR ERROR ERROR = {ex.Message} {ex.StackTrace}");
         }
 
     }

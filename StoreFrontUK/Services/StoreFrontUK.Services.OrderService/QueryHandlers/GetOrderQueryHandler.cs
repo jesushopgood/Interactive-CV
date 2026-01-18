@@ -24,7 +24,7 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, OrderDTO>
 
     public async Task<OrderDTO> Handle(GetOrderQuery request, CancellationToken cancellationToken)
     {
-        var requestedOrder = await _orderRepository.GetById(request.OrderId, o => o.OrderId, [o => o.OrderItems]);
+        var requestedOrder = await _orderRepository.GetByIdAsync(request.OrderId, o => o.OrderId, [o => o.OrderItems]);
         if (requestedOrder is null)
             throw new NotFoundException($"Cannot find order {request.OrderId}");
 

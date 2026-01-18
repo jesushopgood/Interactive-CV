@@ -35,7 +35,7 @@ public class AddProductToOrderCommandHandler : IRequestHandler<AddProductToOrder
     {
         using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
-            var order = await _orderRepository.GetById(request.OrderId, o => o.OrderId, [o => o.OrderItems]);
+            var order = await _orderRepository.GetByIdAsync(request.OrderId, o => o.OrderId, [o => o.OrderItems]);
             if (order is null)
                 throw new NotFoundException($"Cannot find order {request.OrderId}");
 

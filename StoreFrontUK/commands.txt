@@ -12,6 +12,8 @@ docker run -it \
     --name sql-server-2022 \
     mcr.microsoft.com/mssql/server:2022-latest
 
+//dotnet ef migrations add TestCheck
+//dotnet ef database update
 
 // "CustomerDb": "Server=sql-server;Database=CustomerDb;User Id=sa;Password=!JesusIsKing1412!;Encrypt=False;TrustServerCertificate=True;"
 

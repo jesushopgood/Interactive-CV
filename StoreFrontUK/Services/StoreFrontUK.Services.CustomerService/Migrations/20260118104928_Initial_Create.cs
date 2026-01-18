@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace StoreFrontUK.Migrations.CustomerDb
+namespace CustomerService.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate_Customers : Migration
+    public partial class Initial_Create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,9 @@ namespace StoreFrontUK.Migrations.CustomerDb
                 columns: table => new
                 {
                     CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerSurname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CustomerEmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LoyaltyPoints = table.Column<int>(type: "int", nullable: false)
                 },

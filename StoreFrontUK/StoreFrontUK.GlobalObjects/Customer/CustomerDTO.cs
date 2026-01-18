@@ -4,7 +4,11 @@ public record CustomerDTO
 {
     public string CustomerId { get; set; } = string.Empty;
 
-    public string CustomerName { get; set; } = string.Empty;
+    public string CustomerTitle { get; set; } = string.Empty;
+
+    public string CustomerFirstName { get; set; } = string.Empty;
+
+    public string CustomerSurname { get; set; } = string.Empty;
 
     public string CustomerEmailAddress { get; set; } = string.Empty;
 

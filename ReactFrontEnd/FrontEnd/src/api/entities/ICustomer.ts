@@ -29,7 +29,9 @@ interface ICustomerContact
 export interface ICustomer
 {
     customerId: string;
-    customerName:string;
+    customerTitle: string
+    customerFirstName: string;
+    customerSurname: string;
     customerEmailAddress:string;
     loyaltyPoints:string;
     addresses: ICustomerAddress[];

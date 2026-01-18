@@ -11,11 +11,27 @@ export function CustomerList() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Something went wrong {error.message}</p>;
 
-  return (
-    <ul>
-      {data.map((c: ICustomer) => (
-        <li key={c.customerId}>{c.customerName}</li>
-      ))}
-    </ul>
+  return ( 
+    <table className="table table-borderless">
+        <thead>
+          <tr>
+          <th>Title</th>
+          <th>First Name</th>
+          <th>Surname</th>
+          <th>Email Address</th>
+        </tr>
+        </thead>
+        <tbody>
+        { data.map((c: ICustomer) =>
+          <tr>
+            <td>{c.customerTitle}</td>
+            <td>{c.customerFirstName}</td>
+            <td>{c.customerSurname}</td>
+            <td>{c.customerEmailAddress}</td>
+          </tr>
+          )
+        }
+        </tbody>  
+    </table>
   );
 }

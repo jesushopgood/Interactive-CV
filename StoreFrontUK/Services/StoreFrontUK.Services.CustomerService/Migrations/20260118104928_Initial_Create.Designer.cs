@@ -2,17 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StoreFrontUK.Services.CustomerService.Data;
 
 #nullable disable
 
-namespace StoreFrontUK.Migrations.CustomerDb
+namespace CustomerService.Migrations
 {
     [DbContext(typeof(CustomerDbContext))]
-    partial class CustomerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260118104928_Initial_Create")]
+    partial class Initial_Create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +33,15 @@ namespace StoreFrontUK.Migrations.CustomerDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomerName")
+                    b.Property<string>("CustomerFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerSurname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -138,20 +149,24 @@ namespace StoreFrontUK.Migrations.CustomerDb
 
             modelBuilder.Entity("StoreFrontUK.Services.CustomerService.Entities.CustomerContact", b =>
                 {
-                    b.HasOne("StoreFrontUK.Services.CustomerService.Entities.Customer", null)
+                    b.HasOne("StoreFrontUK.Services.CustomerService.Entities.Customer", "Customer")
                         .WithMany("CustomerContacts")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("StoreFrontUK.Services.CustomerService.Entities.CustomerNote", b =>
                 {
-                    b.HasOne("StoreFrontUK.Services.CustomerService.Entities.Customer", null)
+                    b.HasOne("StoreFrontUK.Services.CustomerService.Entities.Customer", "Customer")
                         .WithMany("CustomerNotes")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("StoreFrontUK.Services.CustomerService.Entities.Customer", b =>

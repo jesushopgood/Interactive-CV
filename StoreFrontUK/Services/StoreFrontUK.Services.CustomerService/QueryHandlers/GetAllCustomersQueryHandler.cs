@@ -6,7 +6,7 @@ using StoreFrontUK.Services.CustomerService.Repository;
 
 namespace StoreFrontUK.Services.CustomerService.QueryHandlers;
 
-public class GetAllCustomersQueryHandler:IRequestHandler<GetAllCustomersQuery, IEnumerable<CustomerDTO>>
+public class GetAllCustomersQueryHandler : IRequestHandler<GetAllCustomersQuery, IEnumerable<CustomerDTO>>
 {
     private readonly IMapper _mapper;
     private readonly ICustomerRepository _customerRepository;
@@ -19,7 +19,7 @@ public class GetAllCustomersQueryHandler:IRequestHandler<GetAllCustomersQuery, I
 
     public async Task<IEnumerable<CustomerDTO>> Handle(GetAllCustomersQuery request, CancellationToken cancellationToken)
     {
-        var result = await _customerRepository.GetAll();
-        return await Task.FromResult(_mapper.Map<List<CustomerDTO>>(result));
+        var result = await _customerRepository.GetAllCustomersAsync();
+        return _mapper.Map<List<CustomerDTO>>(result);
     }
 }

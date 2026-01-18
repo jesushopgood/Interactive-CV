@@ -20,11 +20,11 @@ public class GetCustomerQueryHandler : IRequestHandler<GetCustomerQuery, Custome
 
     public async Task<CustomerDTO> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
     {
-        var result = await _customerRepository.GetFullCustomer(request.CustomerId);
-        
+        var result = await _customerRepository.GetFullCustomerAsync(request.CustomerId);
+
         if (result is null)
             throw new NotFoundException($"Customer {request.CustomerId} is not found.");
 
-        return await Task.FromResult(_mapper.Map<Customer, CustomerDTO>(result));        
+        return await Task.FromResult(_mapper.Map<Customer, CustomerDTO>(result));
     }
 }

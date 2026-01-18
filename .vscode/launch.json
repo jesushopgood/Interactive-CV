@@ -1,4 +1,9 @@
 {
+    "env": {
+      "ASPNETCORE_DETAILEDERRORS": "true",
+      "DOTNET_ENVIRONMENT": "Development",
+      "ASPNETCORE_ENVIRONMENT": "Development",
+    },
     "version": "0.2.0",
     "configurations": [
     {
@@ -11,15 +16,14 @@
       "console": "integratedTerminal",
       "env": {
         "BROWSER": "none"
-    }
-}
-,  
+      }
+    },  
     {
       "name": "Customer Service Api",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.CustomerService/bin/Debug/net9.0/CustomerService.dll", 
+      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.CustomerService/bin/Debug/net10.0/CustomerService.dll", 
       "args": [],
       "cwd": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.CustomerService",
       "stopAtEntry": false,
@@ -34,7 +38,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.InventoryService/bin/Debug/net9.0/InventoryService.dll",
+      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.InventoryService/bin/Debug/net10.0/InventoryService.dll",
       "args": [],
       "cwd": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.InventoryService",
       "stopAtEntry": false,
@@ -49,7 +53,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.OrderService/bin/Debug/net9.0/OrderService.dll",
+      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.OrderService/bin/Debug/net10.0/OrderService.dll",
       "args": [],
       "cwd": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.OrderService",
       "stopAtEntry": false,
@@ -64,7 +68,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.EmailService/bin/Debug/net9.0/EmailService.dll",
+      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.EmailService/bin/Debug/net10.0/EmailService.dll",
       "args": [],
       "cwd": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.EmailService",
       "stopAtEntry": false,
@@ -79,7 +83,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.PickService/bin/Debug/net9.0/PickService.dll",
+      "program": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.PickService/bin/Debug/net10.0/PickService.dll",
       "args": [],
       "cwd": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.PickService",
       "stopAtEntry": false,
@@ -88,7 +92,7 @@
   ],
   "compounds": [
     {
-      "name": "FrontEnd + Customer",
+      "name": "Customer + FrontEnd",
       "configurations": ["Customer Service Api", "React Frontend (Vite)"]
     },
     {

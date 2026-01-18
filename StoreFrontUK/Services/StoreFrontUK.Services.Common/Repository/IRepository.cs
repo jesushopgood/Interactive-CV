@@ -4,11 +4,11 @@ namespace StoreFrontUK.Services.Common.Repository;
 
 public interface IRepository<Context, Entity, Key>
 {
-    Task<List<Entity>> GetAll(params Expression<Func<Entity, object>>[] includes);
+    Task<List<Entity>> GetAllAsync(params Expression<Func<Entity, object>>[] includes);
 
-    Task<Entity?> GetById(Key id, Expression<Func<Entity, Key>> keySelector);
+    Task<Entity?> GetByIdAsync(Key id, Expression<Func<Entity, Key>> keySelector);
 
-    Task<Entity?> GetById(Key id,
+    Task<Entity?> GetByIdAsync(Key id,
                             Expression<Func<Entity, Key>> keySelector,
                             Expression<Func<Entity, object>>[] includes);
 

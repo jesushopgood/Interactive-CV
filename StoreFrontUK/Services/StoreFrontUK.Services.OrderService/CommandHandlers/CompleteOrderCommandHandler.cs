@@ -29,7 +29,7 @@ public class CompleteOrderCommandHandler : IRequestHandler<CompletedOrderCommand
 
     public async Task Handle(CompletedOrderCommand request, CancellationToken cancellationToken)
     {
-        var order = await _orderRepository.GetById(request.OrderId, o => o.OrderId);
+        var order = await _orderRepository.GetByIdAsync(request.OrderId, o => o.OrderId);
         if (order is null)
             throw new NotFoundException($"Cannot find order {request.OrderId}");
 
@@ -44,7 +44,7 @@ public class CompleteOrderCommandHandler : IRequestHandler<CompletedOrderCommand
         {
             OrderId = request.OrderId,
             CustomerId = order.CustomerId ?? string.Empty,
-            EmailAddress = emailAddress,            
+            EmailAddress = emailAddress,
         };
 
         await RabbitMQService.Instance.PublishAsync(orderCompletedEvent);

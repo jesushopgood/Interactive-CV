@@ -20,8 +20,8 @@ public class ProductOutOfStockEventHandler : IAsyncEventProcessor<ProductOutOfSt
 
     public async Task Execute(ProductOutOfStockEvent productOutOfStockEvent)
     {
-        var product = await _productRepository.GetById(productOutOfStockEvent.Sku, p => p.Sku);
-        if (product is {CanReorder: true})
+        var product = await _productRepository.GetByIdAsync(productOutOfStockEvent.Sku, p => p.Sku);
+        if (product is { CanReorder: true })
         {
             await _emailServiceClient.SendProductOutOfStockEmail(productOutOfStockEvent.Sku);
             await RabbitMQService.Instance.AcceptMessage(productOutOfStockEvent.DeliveryTag);
@@ -30,7 +30,7 @@ public class ProductOutOfStockEventHandler : IAsyncEventProcessor<ProductOutOfSt
         {
             await RabbitMQService.Instance.RejectMessage(productOutOfStockEvent.DeliveryTag);
         }
-        
+
         await Task.CompletedTask;
     }
 }

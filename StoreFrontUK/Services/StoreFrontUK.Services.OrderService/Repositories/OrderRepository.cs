@@ -13,7 +13,7 @@ public class OrderRepository : TransactionalRepository<OrderDbContext, Order, lo
 
     public async Task AddCustomerToOrder(long orderId, string customerId)
     {
-        var order = await GetById(orderId, o => o.OrderId);
+        var order = await GetByIdAsync(orderId, o => o.OrderId);
         if (order is null)
             throw new NotFoundException($"Cannot find Order: {orderId}");
 

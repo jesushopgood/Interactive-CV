@@ -4,7 +4,7 @@ using StoreFrontUK.Services.Common.Exceptions;
 
 namespace StoreFrontUK.Services.Common.Repository;
 
-public abstract class Repository<Context, Entity, Key> : IRepository<Context, Entity, Key> 
+public abstract class Repository<Context, Entity, Key> : IRepository<Context, Entity, Key>
                                                         where Entity : class, IHasKey<Key>
                                                         where Context : DbContext
 {
@@ -21,27 +21,27 @@ public abstract class Repository<Context, Entity, Key> : IRepository<Context, En
         return Task.FromResult(result is not null);
     }
 
-    public async Task<List<Entity>> GetAll(params Expression<Func<Entity, object>>[] includes)
+    public async Task<List<Entity>> GetAllAsync(params Expression<Func<Entity, object>>[] includes)
     {
-        IQueryable<Entity> query = _context.Set<Entity>();
+        IQueryable<Entity> query = _context.Set<Entity>().AsNoTracking();
 
         foreach (var include in includes)
             query = query.Include(include);
 
-        return await Task.FromResult(query.ToList());
+        return await query.ToListAsync();
     }
 
-    public async Task<Entity?> GetById(Key id, Expression<Func<Entity, Key>> keySelector)
+    public async Task<Entity?> GetByIdAsync(Key id, Expression<Func<Entity, Key>> keySelector)
     {
-        IQueryable<Entity> query = _context.Set<Entity>();
+        IQueryable<Entity> query = _context.Set<Entity>().AsNoTracking();
         return await GetByKey(id, query, keySelector);
     }
 
-    public async Task<Entity?> GetById(Key id,
+    public async Task<Entity?> GetByIdAsync(Key id,
                                         Expression<Func<Entity, Key>> keySelector,
                                         params Expression<Func<Entity, object>>[] includes)
     {
-        IQueryable<Entity> query = _context.Set<Entity>();
+        IQueryable<Entity> query = _context.Set<Entity>().AsNoTracking();
 
         foreach (var include in includes)
             query = query.Include(include);
