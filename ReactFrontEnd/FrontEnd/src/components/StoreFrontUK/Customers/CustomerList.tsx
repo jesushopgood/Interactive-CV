@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCustomers } from "../../api/customers";
-import type { ICustomer } from "../../api/entities/ICustomer";
+import { getCustomers } from "../../../api/customers";
+import type { ICustomer } from "../../../api/entities/ICustomer";
 
-export function CustomerList() {
+export function CustomerList({onSelectCustomer} : {onSelectCustomer? : (customerId: string) => void}) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["customers"],
     queryFn: getCustomers,
@@ -15,15 +15,15 @@ export function CustomerList() {
     <table className="table table-borderless">
         <thead>
           <tr>
-          <th>Title</th>
-          <th>First Name</th>
-          <th>Surname</th>
-          <th>Email Address</th>
-        </tr>
+            <th>Title</th>
+            <th>First Name</th>
+            <th>Surname</th>
+            <th>Email Address</th>
+          </tr>
         </thead>
         <tbody>
         { data.map((c: ICustomer) =>
-          <tr>
+          <tr key={c.customerId} onClick={() => onSelectCustomer!(c.customerId)}>
             <td>{c.customerTitle}</td>
             <td>{c.customerFirstName}</td>
             <td>{c.customerSurname}</td>

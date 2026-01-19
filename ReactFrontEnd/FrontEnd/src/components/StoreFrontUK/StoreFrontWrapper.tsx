@@ -1,9 +1,11 @@
-import type { JSX } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useEffect, useState, type JSX } from "react";
 import WrapperActionsBase from "../../component-tree/WrapperActionsBase";
-import { TabContainer } from "../Common/Layout/TabContainer";
-import { CustomerList } from "./CustomerList";
+import { TabContainer, type TabDefinition } from "../Common/Layout/TabContainer";
+import { CustomerList } from "./Customers/CustomerList";
 import { CodeSnippet } from "../Common/CodeSnippet/CodeSnippet";
 import codeSnippetMetaData from "../Common/CodeSnippet/CodeSnippetMeta";
+import CustomerDetail from "./Customers/customerDetail";
 
 interface StoreFrontWrapperProps
 {
@@ -12,6 +14,17 @@ interface StoreFrontWrapperProps
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function StoreFrontWrapper(_: StoreFrontWrapperProps){
+    const [, setTick] = useState(0);
+    const [wrapperActions, setWrapperActions] = useState<StoreFrontWrapperActions | null>(null);
+
+    useEffect(() => {
+        setWrapperActions(new StoreFrontWrapperActions());
+    }, [])
+
+    useEffect(() => {
+        wrapperActions?.setRerender(() => setTick(t => t + 1));
+    } , [wrapperActions]);
+
     return (
         <div className="card-shadow p-2" id="context-wrapper">
             <div className="card-header mb-sm-4" > 
@@ -22,7 +35,7 @@ export default function StoreFrontWrapper(_: StoreFrontWrapperProps){
             </div>
                 
             <div className="card-body rounded p-0 mt-2" >
-                {new StoreFrontWrapperActions().getHeirarchy()}
+                {wrapperActions?.getHeirarchy()}
             </div>  
         </div>
     );
@@ -30,23 +43,42 @@ export default function StoreFrontWrapper(_: StoreFrontWrapperProps){
  
 class StoreFrontWrapperActions extends WrapperActionsBase
 {
-    getHeirarchy(): JSX.Element {
-        return (
-            
-            <TabContainer
-                tabs={[
-                {
-                    id: "useState",
-                    label: "useState",
+    private tabs: TabDefinition[];
+
+    constructor(){
+        super();
+
+        this.tabs = [{
+                    id: "customerList",
+                    label: "Customer List",
                     content: 
                     <CodeSnippet 
                         title={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.title ?? ""} 
                         notes={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.notes ?? ""}>
-                        <CustomerList />        
+                        <CustomerList onSelectCustomer={(customerId: string) => this.openCustomerDetails(customerId)}/>        
                     </CodeSnippet>
-                },
-            ]}/>
-        );
+        }];
+    }
+    
+    openCustomerDetails(customerId: string){
+        if (this.tabs.some(t => t.id === `customer-${customerId}`)) return;
+
+        this.tabs.push({
+                    id: `customer-${customerId}`,
+                    label: "Customer",
+                    content: 
+                    <CodeSnippet 
+                        title={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.title ?? ""} 
+                        notes={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.notes ?? ""}>
+                        <CustomerDetail customerId={customerId} />        
+                    </CodeSnippet>
+        });
+
+        this.notify();
+    }
+
+    getHeirarchy(): JSX.Element {
+        return <TabContainer tabs={this.tabs} />;
     }
 
     getHeirarchyAsString(): JSX.Element {
@@ -54,6 +86,7 @@ class StoreFrontWrapperActions extends WrapperActionsBase
             <StoreFrontWrapper>
                 <TabContainer>
                     <CustomerList />
+                    <CustomerDetail />
                 </TabContainer>
             </StoreFrontWrapper>
         );

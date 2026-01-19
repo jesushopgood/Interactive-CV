@@ -15,5 +15,4 @@ public class CustomerRepository : Repository<CustomerDbContext, Customer, string
 
     public async Task<List<Customer>> GetAllCustomersAsync() =>
         await GetAllAsync(c => c.Addresses, c => c.CustomerNotes, c => c.CustomerContacts);
-
 }
