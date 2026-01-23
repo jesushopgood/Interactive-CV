@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const products = ["Chicken Wings", "Chicken Nuggets", "Cheese Strips", "Cheese Toast", "Pork Scratchings"];
 
 
-function useDebounce(value: string, delay: number){
+export function useDebounce(value: string, delay: number){
     const [debouncedValue, setDebouncedValue] = useState(value);
 
     useEffect(() => {        
@@ -15,7 +15,7 @@ function useDebounce(value: string, delay: number){
     return debouncedValue;
 }
 
-export default function DebounceClient(){
+export function DebounceClient(){
     const [query, setQuery] = useState("");
     const deboucedValue = useDebounce(query, 1000);
     const [searchResults, setSearchResults] = useState<Array<string>>([]);

@@ -1,6 +1,6 @@
 import type { JSX } from "react";
 import { TabContainer } from "../Common/Layout/TabContainer";
-import DebounceClient from "./DebounceClient";
+import { DebounceClient } from "./DebounceClient";
 import WrapperActionsBase from "../../component-tree/WrapperActionsBase";
 import SubscriptionClient from "./SubscriptionClient";
 import ThrottleClient from "./ThrottleClient";

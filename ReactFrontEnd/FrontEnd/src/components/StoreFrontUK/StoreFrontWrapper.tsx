@@ -1,11 +1,16 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState, type JSX } from "react";
 import WrapperActionsBase from "../../component-tree/WrapperActionsBase";
-import { TabContainer, type TabDefinition } from "../Common/Layout/TabContainer";
-import { CustomerList } from "./Customers/CustomerList";
 import { CodeSnippet } from "../Common/CodeSnippet/CodeSnippet";
 import codeSnippetMetaData from "../Common/CodeSnippet/CodeSnippetMeta";
-import CustomerDetail from "./Customers/customerDetail";
+import CustomerAddresses from "./Customers/CustomerAdddresses";
+import CustomerContacts from "./Customers/CustomerContacts";
+import CustomerNotes from "./Customers/CustomerNotes";
+import CustomerDetail from "./Customers/CustomerDetail";
+import CustomerListNew from "./Customers/CustomerListNew";
+import { StoreFrontTabContainer, type TabDefinition } from "./Layout/StoreFrontTabContainer";
+
+export type entityId = string;
 
 interface StoreFrontWrapperProps
 {
@@ -21,7 +26,7 @@ export default function StoreFrontWrapper(_: StoreFrontWrapperProps){
         setWrapperActions(new StoreFrontWrapperActions());
     }, [])
 
-    useEffect(() => {
+    useEffect(() => {   
         wrapperActions?.setRerender(() => setTick(t => t + 1));
     } , [wrapperActions]);
 
@@ -44,50 +49,96 @@ export default function StoreFrontWrapper(_: StoreFrontWrapperProps){
 class StoreFrontWrapperActions extends WrapperActionsBase
 {
     private tabs: TabDefinition[];
+    private activeTabId: string = "customerList";
 
     constructor(){
         super();
-
         this.tabs = [{
                     id: "customerList",
                     label: "Customer List",
+                    allowClose: false,
                     content: 
                     <CodeSnippet 
                         title={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.title ?? ""} 
                         notes={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.notes ?? ""}>
-                        <CustomerList onSelectCustomer={(customerId: string) => this.openCustomerDetails(customerId)}/>        
+                        <CustomerListNew onSelectEntity={(customerId: string) => this.viewCustomerDetails(customerId)}/>
                     </CodeSnippet>
         }];
     }
-    
-    openCustomerDetails(customerId: string){
-        if (this.tabs.some(t => t.id === `customer-${customerId}`)) return;
 
-        this.tabs.push({
-                    id: `customer-${customerId}`,
-                    label: "Customer",
-                    content: 
-                    <CodeSnippet 
-                        title={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.title ?? ""} 
-                        notes={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.notes ?? ""}>
-                        <CustomerDetail customerId={customerId} />        
-                    </CodeSnippet>
-        });
+    private updateTabName(customerId: string, tabName: string){        
+        const tab = this.tabs.find(t => t.id === customerId);
+        if (!tab) return;
+        if (tab) tab.label = tabName;
 
         this.notify();
     }
 
+    private backToResults = () => {
+        this.activeTabId = "customerList"; 
+        this.notify();
+    }   
+
+    private closeTab  = (id: entityId) => {
+        this.tabs = this.tabs.filter(t => t.id !== id);
+        this.activeTabId = "customerList"
+        this.notify();
+    }
+
+    private selectExistingTab = (tabId: string) => {
+        this.activeTabId = tabId;
+        this.notify();
+        return;
+    }
+
+    private createNewTab = (entityId: string) => {
+        this.tabs.push({
+            id: entityId,
+            label: "Customer",
+            allowClose: true,
+            content: 
+            <CodeSnippet 
+                title={codeSnippetMetaData.get("StoreFrontUK.CustomerDetail")?.title ?? ""} 
+                notes={codeSnippetMetaData.get("StoreFrontUK.CustomerDetail")?.notes ?? ""}>
+                <CustomerDetail customerId={entityId} 
+                                onLoaded={(tabName) => this.updateTabName(entityId, tabName)}
+                                onBackToResults={this.backToResults} />        
+            </CodeSnippet>
+        });
+
+        this.activeTabId = entityId;
+        this.notify();
+    }
+    
+    viewCustomerDetails(entityId: string){
+        const existingTab = this.tabs.find(t => t.id === entityId);
+        if (existingTab)
+            this.selectExistingTab(existingTab.id);
+        else
+            this.createNewTab(entityId);
+    }
+
     getHeirarchy(): JSX.Element {
-        return <TabContainer tabs={this.tabs} />;
+        return <StoreFrontTabContainer tabs={this.tabs} 
+                        currentTabId={this.activeTabId}
+                        onTabChange={(id: string) => {
+                            this.activeTabId = `${id}`;
+                            this.notify();
+                        }}
+                        onClose={(id: string) => this.closeTab(id)} 
+                />;
     }
 
     getHeirarchyAsString(): JSX.Element {
         return (
             <StoreFrontWrapper>
-                <TabContainer>
-                    <CustomerList />
+                <StoreFrontTabContainer>
+                    <CustomerListNew />
                     <CustomerDetail />
-                </TabContainer>
+                    <CustomerAddresses />
+                    <CustomerNotes  />
+                    <CustomerContacts />
+                </StoreFrontTabContainer> 
             </StoreFrontWrapper>
         );
     }    

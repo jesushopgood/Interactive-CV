@@ -1,8 +1,7 @@
 type AddressType = "Billing" | "Delivery" | "Secondary";
 type CustomerContactType = "Email" | "Mobile" | "Landline"; 
 
-
-interface ICustomerAddress
+export interface ICustomerAddress
 {
     id: number;
     line1: string;
@@ -11,14 +10,14 @@ interface ICustomerAddress
     addressType: AddressType
 }
 
-interface ICustomerNote
+export interface ICustomerNote
 {
     id: number;
     customerId:string;
     message:string;
 }
 
-interface ICustomerContact
+export interface ICustomerContact
 {
     id: number;
     customerId:string;
@@ -38,3 +37,15 @@ export interface ICustomer
     customerContacts: ICustomerContact[];
     customerNotes: ICustomerNote[];
 } 
+
+export const emptyCustomer: ICustomer = {
+  customerId: "",
+  customerFirstName: "",
+  customerTitle: "",
+  customerSurname: "",
+  customerEmailAddress: "",
+  loyaltyPoints: "",
+  addresses: [],
+  customerContacts: [],
+  customerNotes: []
+}

@@ -1,4 +1,5 @@
 using AutoMapper;
+using StoreFrontUK.GlobalObjects.Common;
 using StoreFrontUK.GlobalObjects.Customer;
 using StoreFrontUK.Services.CustomerService.Entities;
 
@@ -13,5 +14,6 @@ public class CustomerMappingProfile : Profile
         CreateMap<CustomerNoteDTO, CustomerNote>().ReverseMap();
         CreateMap<CustomerDTO, Customer>().ReverseMap();
         CreateMap<CreateCustomerDTO, Customer>().ReverseMap();
+        CreateMap<TableQueryOptionsDTO<CustomerDTO>, TableQueryOptions<Customer>>().ReverseMap();
     }
 }

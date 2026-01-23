@@ -208,6 +208,25 @@ body{
 }
 
 /* HOOKS TAB   */
+
+.tab-btn {
+  position: relative;
+  padding-left: 40px; /* space for the X */
+}
+
+.tab-btn .close {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.tab-btn .close:hover {
+  color: red;
+}
+
 .tab-header {
   display: flex;
   gap: 0.5rem;
@@ -334,6 +353,48 @@ body{
   pointer-events: none; /* optional: lets clicks pass through */
 }
 
+
+/********************************************Table*****************************************/
+.table-fixed{
+  table-layout: fixed;
+  width: 100%;
+}
+
+.table-fixed th:nth-child(1),
+.table-fixed td:nth-child(1) {
+  width: 70px;
+  max-width: 100px;
+}
+
+.table-fixed th:nth-child(2),
+.table-fixed td:nth-child(2) {
+  width: 130px;
+}
+
+.table-fixed th:nth-child(3),
+.table-fixed td:nth-child(3) {
+  width: 130px;
+}
+
+.table-fixed th:nth-child(4),
+.table-fixed td:nth-child(4) {
+  width: 300px;
+}
+
+
+tr.clickable{
+  cursor: pointer;
+}
+
+/*----------------------------------------------------------------ENTITY TABLE----------------------------------------------*/
+.entity-table .label-column{
+  width: 250px, !important;;
+}
+
+.entity-table .editable{
+   border-color: $syntax-orange !important; /* your colour */
+   box-shadow: 0 0 0 0.25rem rgba(255, 136, 0, 0.25) !important;
+}
 
 .code-window {
   .keyword  { color: $syntax-blue; }

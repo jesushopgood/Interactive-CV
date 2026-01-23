@@ -1,6 +1,7 @@
 import CustomHooksWrapper, { CustomHooksWrapperActions } from "../components/CustomHooks/CustomHooksWrapper";
 import HooksWrapper, { HooksWrapperActions } from "../components/HookDemo/HooksWrapper";
 import { PropsWrapper, PropsWrapperActions } from "../components/MultiLevelProps/PropsWrapper";
+import StoreFrontWrapper, { StoreFrontWrapperActions } from "../components/StoreFrontUK/StoreFrontWrapper";
 import TsJsWrapper, { TsJsWrapperActions } from "../components/TS-JS/TsJsWrapper";
 import type ComponentPathMapping from "../global-context/ComponentPathMapping";
 
@@ -29,7 +30,14 @@ export default function getInitialComponent(): ComponentPathMapping[]{
             component: <TsJsWrapper />,
             menuActions: new TsJsWrapperActions(),
             componentPath: "TS-JS",
+        },
+        {
+            componentName: "StoreFrontWrapper",
+            component: <StoreFrontWrapper />,
+            menuActions: new StoreFrontWrapperActions(),
+            componentPath: "StoreFrontUK",
         }
+
     ];
 
     return initialComponents;

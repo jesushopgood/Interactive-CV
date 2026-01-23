@@ -144,3 +144,13 @@ codeSnippetMetaData.set("UseTimeoutInterval", {
     notes: "A generic hook that lets you create a timeout or interval with cleanup logic." 
 });
 
+codeSnippetMetaData.set("StoreFrontUK.CustomersList", {   
+    title: "Customers",
+    notes: "Demonstrates calling StoreFront C# API with using AXIOS/ReactQuery and tanStack Headless UI Tables." 
+});
+
+codeSnippetMetaData.set("StoreFrontUK.CustomerDetail", {   
+    title: "Customer",
+    notes: "TBD" 
+});
+

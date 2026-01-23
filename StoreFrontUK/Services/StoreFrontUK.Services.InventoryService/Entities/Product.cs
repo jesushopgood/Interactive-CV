@@ -3,7 +3,7 @@ using StoreFrontUK.Services.Common.Repository;
 
 namespace StoreFrontUK.Services.InventoryService.Entities;
 
-public record Product : IHasKey<string>
+public record Product : IEntityWithKey<string>
 {
     [Key]
     public string Sku { get; set; } = string.Empty;

@@ -12,7 +12,7 @@ export function CustomerList({onSelectCustomer} : {onSelectCustomer? : (customer
   if (error) return <p>Something went wrong {error.message}</p>;
 
   return ( 
-    <table className="table table-borderless">
+    <table className="table table-hover table-striped">
         <thead>
           <tr>
             <th>Title</th>
@@ -23,7 +23,7 @@ export function CustomerList({onSelectCustomer} : {onSelectCustomer? : (customer
         </thead>
         <tbody>
         { data.map((c: ICustomer) =>
-          <tr key={c.customerId} onClick={() => onSelectCustomer!(c.customerId)}>
+          <tr className="clickable" key={c.customerId} onClick={() => onSelectCustomer!(c.customerId)}>
             <td>{c.customerTitle}</td>
             <td>{c.customerFirstName}</td>
             <td>{c.customerSurname}</td>

@@ -11,7 +11,7 @@ public enum OrderState
     Failed
 }
 
-public record Order : IHasKey<long>
+public record Order : IEntityWithKey<long>
 {
     [Key]
     public long OrderId { get; set; } = 0;

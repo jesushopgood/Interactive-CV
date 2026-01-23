@@ -1,8 +1,6 @@
-using Castle.Core.Logging;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using StoreFrontUK.Services.CustomerService.Commands;
 using StoreFrontUK.Services.CustomerService.Queries;
 using StoreFrontUK.GlobalObjects.Customer;
@@ -17,7 +15,6 @@ public class CustomerController : ControllerBase
 
     public CustomerController(IMediator mediatr, ILogger<CustomerController> logger)
     {
-        Console.WriteLine("Hit Controller");
         _mediatr = mediatr;
     }
 
@@ -48,6 +45,17 @@ public class CustomerController : ControllerBase
     {
         var createdEntity = await _mediatr.Send(new CreateCustomerCommand { Dto = createCustomerDTO });
         return CreatedAtAction(nameof(GetCustomer), new { id = createdEntity.CustomerId }, createdEntity);
+    }
+
+    [HttpPost("filters")]
+    public async Task<IActionResult> GetCustomersWithFilters(GetCustomersWithFiltersDTO getCustomersWithFiltersDTO)
+    {
+        var result = await _mediatr.Send(new GetCustomersWithParamsQuery
+        {
+            Dto = getCustomersWithFiltersDTO
+        });
+
+        return Ok(result);
     }
 
     [HttpPut()]

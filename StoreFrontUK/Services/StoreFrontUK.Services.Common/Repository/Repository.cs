@@ -5,7 +5,7 @@ using StoreFrontUK.Services.Common.Exceptions;
 namespace StoreFrontUK.Services.Common.Repository;
 
 public abstract class Repository<Context, Entity, Key> : IRepository<Context, Entity, Key>
-                                                        where Entity : class, IHasKey<Key>
+                                                        where Entity : class, IEntityWithKey<Key>
                                                         where Context : DbContext
 {
     protected readonly Context _context;
@@ -24,10 +24,7 @@ public abstract class Repository<Context, Entity, Key> : IRepository<Context, En
     public async Task<List<Entity>> GetAllAsync(params Expression<Func<Entity, object>>[] includes)
     {
         IQueryable<Entity> query = _context.Set<Entity>().AsNoTracking();
-
-        foreach (var include in includes)
-            query = query.Include(include);
-
+        query = await AppendIncludesAsync(query, includes);
         return await query.ToListAsync();
     }
 
@@ -42,9 +39,7 @@ public abstract class Repository<Context, Entity, Key> : IRepository<Context, En
                                         params Expression<Func<Entity, object>>[] includes)
     {
         IQueryable<Entity> query = _context.Set<Entity>().AsNoTracking();
-
-        foreach (var include in includes)
-            query = query.Include(include);
+        query = await AppendIncludesAsync(query, includes);
 
         return await GetByKey(id, query, keySelector);
     }
@@ -86,5 +81,13 @@ public abstract class Repository<Context, Entity, Key> : IRepository<Context, En
         ));
 
         return await Task.FromResult(result);
+    }
+
+    protected async Task<IQueryable<Entity>> AppendIncludesAsync(IQueryable<Entity> query, params Expression<Func<Entity, object>>[] includes)
+    {
+        foreach (var include in includes)
+            query = query.Include(include);
+
+        return query;
     }
 }

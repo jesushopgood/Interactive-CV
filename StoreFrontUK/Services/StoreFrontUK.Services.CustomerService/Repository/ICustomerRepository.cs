@@ -1,3 +1,4 @@
+using StoreFrontUK.GlobalObjects.Common;
 using StoreFrontUK.Services.Common.Repository;
 using StoreFrontUK.Services.CustomerService.Data;
 using StoreFrontUK.Services.CustomerService.Entities;
@@ -9,4 +10,10 @@ public interface ICustomerRepository : IRepository<CustomerDbContext, Customer, 
     Task<Customer?> GetFullCustomerAsync(string id);
 
     Task<List<Customer>> GetAllCustomersAsync();
+
+    Task<TableQueryOptions<Customer>> GetAllCustomersWithParamsAsync(
+        List<ColumnFilterState> columnFilterState,
+        PaginationState paginationState,
+        List<SortingState> sortingState
+    );
 }

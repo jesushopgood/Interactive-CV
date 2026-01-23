@@ -14,7 +14,7 @@ export default function Layout() {
     <div className="vh-75">
       <main className="container-fluid h-100 d-flex align-items-center">
         <div className="row w-100 content">
-          <div className="col-12 col-md-6">
+          <div className="col-12 col-md-9">
             <div className="card shadow">
               <div className="card-body p-1">
                 {
@@ -25,7 +25,7 @@ export default function Layout() {
               </div>
             </div>
           </div>
-          <div className="col-12 col-md-6">
+          <div className="col-12 col-md-3">
             <SlideOutPanel componentPathMapping={componentPathMapping}/>                
           </div>
         </div>

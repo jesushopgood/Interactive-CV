@@ -2,7 +2,7 @@ using StoreFrontUK.Services.Common.Repository;
 
 namespace StoreFrontUK.Services.OrderService.Entities;
 
-public record OrderProduct : IHasKey<long>
+public record OrderProduct : IEntityWithKey<long>
 {
     public long OrderProductId { get; set; }
     public Order Order { get; set; } = new();

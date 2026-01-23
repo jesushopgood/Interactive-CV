@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using StoreFrontUK.GlobalObjects.Common;
 using StoreFrontUK.Services.Common.Repository;
 
 namespace StoreFrontUK.Services.CustomerService.Entities;
 
-public record Customer : IHasKey<string>
+public record Customer : IEntityWithKey<string>
 {
     [Key]
     public string CustomerId { get; set; } = string.Empty;

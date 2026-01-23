@@ -28,7 +28,7 @@ export default function CodeSnippetSimple({title, notes, children}: CodeSnippetP
     useEffect(() => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const component = children.type as any;
-        console.log(component);
+ 
         if (component.code){
             setHighlight({
                 title: component.title ?? "", 
