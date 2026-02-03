@@ -6,6 +6,17 @@ namespace StoreFrontUK.Services.CustomerService.Data;
 
 public static class CustomerSeeder
 {
+    private static DateTime RandomDate()
+    {
+        var start = new DateTime(2023, 1, 1);
+        var range = (DateTime.Now - start).Days;
+
+        return start.AddDays(Random.Shared.Next(range))
+                    .AddHours(Random.Shared.Next(0, 24))
+                    .AddMinutes(Random.Shared.Next(0, 60))
+                    .AddSeconds(Random.Shared.Next(0, 60));
+    }
+
     public static void Seed(CustomerDbContext context)
     {
         context.CustomerNotes.RemoveRange(context.CustomerNotes);
@@ -21,61 +32,496 @@ public static class CustomerSeeder
         if (!context.Customers.Any())
         {
             context.Customers.AddRange(
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Albert", CustomerSurname = "Einstein", CustomerEmailAddress = "albert.einstein@example.com", LoyaltyPoints = 120, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Marie", CustomerSurname = "Curie", CustomerEmailAddress = "marie.curie@example.com", LoyaltyPoints = 95, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Isaac", CustomerSurname = "Newton", CustomerEmailAddress = "isaac.newton@example.com", LoyaltyPoints = 150, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Leonardo", CustomerSurname = "daVinci", CustomerEmailAddress = "leonardo.davinci@example.com", LoyaltyPoints = 80, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Nikola", CustomerSurname = "Tesla", CustomerEmailAddress = "nikola.tesla@example.com", LoyaltyPoints = 110, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Albert", Surname = "Einstein" },
+                CustomerEmailAddress = "albert.einstein@example.com",
+                LoyaltyPoints = 120,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
 
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Cleopatra", CustomerSurname = "Philopator", CustomerEmailAddress = "cleopatra@example.com", LoyaltyPoints = 70, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Julius", CustomerSurname = "Caesar", CustomerEmailAddress = "julius.caesar@example.com", LoyaltyPoints = 130, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Genghis", CustomerSurname = "Khan", CustomerEmailAddress = "genghis.khan@example.com", LoyaltyPoints = 140, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Joan", CustomerSurname = "ofArc", CustomerEmailAddress = "joan.ofarc@example.com", LoyaltyPoints = 65, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "William", CustomerSurname = "Shakespeare", CustomerEmailAddress = "william.shakespeare@example.com", LoyaltyPoints = 90, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Marie", Surname = "Curie" },
+                CustomerEmailAddress = "marie.curie@example.com",
+                LoyaltyPoints = 95,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
 
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "George", CustomerSurname = "Washington", CustomerEmailAddress = "george.washington@example.com", LoyaltyPoints = 100, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Florence", CustomerSurname = "Nightingale", CustomerEmailAddress = "florence.nightingale@example.com", LoyaltyPoints = 85, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Winston", CustomerSurname = "Churchill", CustomerEmailAddress = "winston.churchill@example.com", LoyaltyPoints = 75, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Harriet", CustomerSurname = "Tubman", CustomerEmailAddress = "harriet.tubman@example.com", LoyaltyPoints = 60, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Martin", CustomerSurname = "LutherKing", CustomerEmailAddress = "martin.lutherking@example.com", LoyaltyPoints = 115, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Isaac", Surname = "Newton" },
+                CustomerEmailAddress = "isaac.newton@example.com",
+                LoyaltyPoints = 150,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
 
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Socrates", CustomerSurname = "Philosopher", CustomerEmailAddress = "socrates@example.com", LoyaltyPoints = 55, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Plato", CustomerSurname = "Philosopher", CustomerEmailAddress = "plato@example.com", LoyaltyPoints = 50, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Aristotle", CustomerSurname = "Philosopher", CustomerEmailAddress = "aristotle@example.com", LoyaltyPoints = 65, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Hypatia", CustomerSurname = "ofAlexandria", CustomerEmailAddress = "hypatia@example.com", LoyaltyPoints = 70, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Confucius", CustomerSurname = "Kong", CustomerEmailAddress = "confucius@example.com", LoyaltyPoints = 95, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Leonardo", Surname = "daVinci" },
+                CustomerEmailAddress = "leonardo.davinci@example.com",
+                LoyaltyPoints = 80,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
 
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Alexander", CustomerSurname = "theGreat", CustomerEmailAddress = "alexander.great@example.com", LoyaltyPoints = 140, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Catherine", CustomerSurname = "theGreat", CustomerEmailAddress = "catherine.great@example.com", LoyaltyPoints = 125, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Napoleon", CustomerSurname = "Bonaparte", CustomerEmailAddress = "napoleon.bonaparte@example.com", LoyaltyPoints = 135, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Queen", CustomerSurname = "Victoria", CustomerEmailAddress = "queen.victoria@example.com", LoyaltyPoints = 90, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Charlemagne", CustomerSurname = "King", CustomerEmailAddress = "charlemagne@example.com", LoyaltyPoints = 105, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Nikola", Surname = "Tesla" },
+                CustomerEmailAddress = "nikola.tesla@example.com",
+                LoyaltyPoints = 110,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
 
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Galileo", CustomerSurname = "Galilei", CustomerEmailAddress = "galileo@example.com", LoyaltyPoints = 100, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Ada", CustomerSurname = "Lovelace", CustomerEmailAddress = "ada.lovelace@example.com", LoyaltyPoints = 115, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Alan", CustomerSurname = "Turing", CustomerEmailAddress = "alan.turing@example.com", LoyaltyPoints = 130, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Johannes", CustomerSurname = "Kepler", CustomerEmailAddress = "johannes.kepler@example.com", LoyaltyPoints = 85, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Thomas", CustomerSurname = "Edison", CustomerEmailAddress = "thomas.edison@example.com", LoyaltyPoints = 75, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Cleopatra", Surname = "Philopator" },
+                CustomerEmailAddress = "cleopatra@example.com",
+                LoyaltyPoints = 70,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
 
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Amelia", CustomerSurname = "Earhart", CustomerEmailAddress = "amelia.earhart@example.com", LoyaltyPoints = 60, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Neil", CustomerSurname = "Armstrong", CustomerEmailAddress = "neil.armstrong@example.com", LoyaltyPoints = 95, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Rosa", CustomerSurname = "Parks", CustomerEmailAddress = "rosa.parks@example.com", LoyaltyPoints = 70, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Nelson", CustomerSurname = "Mandela", CustomerEmailAddress = "nelson.mandela@example.com", LoyaltyPoints = 125, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Mother", CustomerSurname = "Teresa", CustomerEmailAddress = "mother.teresa@example.com", LoyaltyPoints = 55, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Julius", Surname = "Caesar" },
+                CustomerEmailAddress = "julius.caesar@example.com",
+                LoyaltyPoints = 130,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
 
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Hammurabi", CustomerSurname = "King", CustomerEmailAddress = "hammurabi@example.com", LoyaltyPoints = 80, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Elizabeth", CustomerSurname = "Tudor", CustomerEmailAddress = "elizabeth.tudor@example.com", LoyaltyPoints = 100, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Homer", CustomerSurname = "Poet", CustomerEmailAddress = "homer@example.com", LoyaltyPoints = 45, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Marco", CustomerSurname = "Polo", CustomerEmailAddress = "marco.polo@example.com", LoyaltyPoints = 85, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Sacagawea", CustomerSurname = "Explorer", CustomerEmailAddress = "sacagawea@example.com", LoyaltyPoints = 65, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Genghis", Surname = "Khan" },
+                CustomerEmailAddress = "genghis.khan@example.com",
+                LoyaltyPoints = 140,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Joan", Surname = "ofArc" },
+                CustomerEmailAddress = "joan.ofarc@example.com",
+                LoyaltyPoints = 65,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
 
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Sun", CustomerSurname = "Tzu", CustomerEmailAddress = "sun.tzu@example.com", LoyaltyPoints = 120, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Hernán", CustomerSurname = "Cortés", CustomerEmailAddress = "hernan.cortes@example.com", LoyaltyPoints = 75, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Ms", CustomerFirstName = "Mary", CustomerSurname = "Shelley", CustomerEmailAddress = "mary.shelley@example.com", LoyaltyPoints = 90, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex++].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Ludwig", CustomerSurname = "Beethoven", CustomerEmailAddress = "ludwig.beethoven@example.com", LoyaltyPoints = 110, Addresses = [], CustomerContacts = [], CustomerNotes = [] },
-                new Customer { CustomerId = guidList[customerIndex].ToString(), CustomerTitle = "Mr", CustomerFirstName = "Wolfgang", CustomerSurname = "Mozart", CustomerEmailAddress = "wolfgang.mozart@example.com", LoyaltyPoints = 105, Addresses = [], CustomerContacts = [], CustomerNotes = [] });
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "William", Surname = "Shakespeare" },
+                CustomerEmailAddress = "william.shakespeare@example.com",
+                LoyaltyPoints = 90,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "George", Surname = "Washington" },
+                CustomerEmailAddress = "george.washington@example.com",
+                LoyaltyPoints = 100,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Florence", Surname = "Nightingale" },
+                CustomerEmailAddress = "florence.nightingale@example.com",
+                LoyaltyPoints = 85,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Winston", Surname = "Churchill" },
+                CustomerEmailAddress = "winston.churchill@example.com",
+                LoyaltyPoints = 75,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Harriet", Surname = "Tubman" },
+                CustomerEmailAddress = "harriet.tubman@example.com",
+                LoyaltyPoints = 60,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Martin", Surname = "LutherKing" },
+                CustomerEmailAddress = "martin.lutherking@example.com",
+                LoyaltyPoints = 115,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Socrates", Surname = "Philosopher" },
+                CustomerEmailAddress = "socrates@example.com",
+                LoyaltyPoints = 55,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Plato", Surname = "Philosopher" },
+                CustomerEmailAddress = "plato@example.com",
+                LoyaltyPoints = 50,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Aristotle", Surname = "Philosopher" },
+                CustomerEmailAddress = "aristotle@example.com",
+                LoyaltyPoints = 65,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Hypatia", Surname = "ofAlexandria" },
+                CustomerEmailAddress = "hypatia@example.com",
+                LoyaltyPoints = 70,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Confucius", Surname = "Kong" },
+                CustomerEmailAddress = "confucius@example.com",
+                LoyaltyPoints = 95,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Alexander", Surname = "theGreat" },
+                CustomerEmailAddress = "alexander.great@example.com",
+                LoyaltyPoints = 140,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Catherine", Surname = "theGreat" },
+                CustomerEmailAddress = "catherine.great@example.com",
+                LoyaltyPoints = 125,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Napoleon", Surname = "Bonaparte" },
+                CustomerEmailAddress = "napoleon.bonaparte@example.com",
+                LoyaltyPoints = 135,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Queen", Surname = "Victoria" },
+                CustomerEmailAddress = "queen.victoria@example.com",
+                LoyaltyPoints = 90,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Charlemagne", Surname = "King" },
+                CustomerEmailAddress = "charlemagne@example.com",
+                LoyaltyPoints = 105,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Galileo", Surname = "Galilei" },
+                CustomerEmailAddress = "galileo@example.com",
+                LoyaltyPoints = 100,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Ada", Surname = "Lovelace" },
+                CustomerEmailAddress = "ada.lovelace@example.com",
+                LoyaltyPoints = 115,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Alan", Surname = "Turing" },
+                CustomerEmailAddress = "alan.turing@example.com",
+                LoyaltyPoints = 130,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Johannes", Surname = "Kepler" },
+                CustomerEmailAddress = "johannes.kepler@example.com",
+                LoyaltyPoints = 85,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Thomas", Surname = "Edison" },
+                CustomerEmailAddress = "thomas.edison@example.com",
+                LoyaltyPoints = 75,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+                        new Customer
+                        {
+                            CustomerId = guidList[customerIndex++].ToString(),
+                            CustomerName = { Title = "Ms", FirstName = "Amelia", Surname = "Earhart" },
+                            CustomerEmailAddress = "amelia.earhart@example.com",
+                            LoyaltyPoints = 60,
+                            Addresses = [],
+                            CustomerContacts = [],
+                            CustomerNotes = []
+                        },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Neil", Surname = "Armstrong" },
+                CustomerEmailAddress = "neil.armstrong@example.com",
+                LoyaltyPoints = 95,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Rosa", Surname = "Parks" },
+                CustomerEmailAddress = "rosa.parks@example.com",
+                LoyaltyPoints = 70,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Nelson", Surname = "Mandela" },
+                CustomerEmailAddress = "nelson.mandela@example.com",
+                LoyaltyPoints = 125,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Mother", Surname = "Teresa" },
+                CustomerEmailAddress = "mother.teresa@example.com",
+                LoyaltyPoints = 55,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Hammurabi", Surname = "King" },
+                CustomerEmailAddress = "hammurabi@example.com",
+                LoyaltyPoints = 80,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Elizabeth", Surname = "Tudor" },
+                CustomerEmailAddress = "elizabeth.tudor@example.com",
+                LoyaltyPoints = 100,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Homer", Surname = "Poet" },
+                CustomerEmailAddress = "homer@example.com",
+                LoyaltyPoints = 45,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Marco", Surname = "Polo" },
+                CustomerEmailAddress = "marco.polo@example.com",
+                LoyaltyPoints = 85,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Sacagawea", Surname = "Explorer" },
+                CustomerEmailAddress = "sacagawea@example.com",
+                LoyaltyPoints = 65,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Sun", Surname = "Tzu" },
+                CustomerEmailAddress = "sun.tzu@example.com",
+                LoyaltyPoints = 120,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Hernán", Surname = "Cortés" },
+                CustomerEmailAddress = "hernan.cortes@example.com",
+                LoyaltyPoints = 75,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Ms", FirstName = "Mary", Surname = "Shelley" },
+                CustomerEmailAddress = "mary.shelley@example.com",
+                LoyaltyPoints = 90,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex++].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Ludwig", Surname = "Beethoven" },
+                CustomerEmailAddress = "ludwig.beethoven@example.com",
+                LoyaltyPoints = 110,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            },
+
+            new Customer
+            {
+                CustomerId = guidList[customerIndex].ToString(),
+                CustomerName = { Title = "Mr", FirstName = "Wolfgang", Surname = "Mozart" },
+                CustomerEmailAddress = "wolfgang.mozart@example.com",
+                LoyaltyPoints = 105,
+                Addresses = [],
+                CustomerContacts = [],
+                CustomerNotes = []
+            });
         }
-
         context.SaveChanges();
 
         customerIndex = 0;
@@ -84,7 +530,10 @@ public static class CustomerSeeder
         if (!context.CustomerAddresses.Any())
         {
             context.CustomerAddresses.AddRange(
-                new CustomerAddress { Customer = customerList[customerIndex++], AddressType = AddressType.Billing, Line1 = "1A Billingham St.", Line2 = "Liverpool", Postcode = "L1 4AA" },
+                new CustomerAddress { Customer = customerList[customerIndex], AddressType = AddressType.Billing, Line1 = "1A Billingham St.", Line2 = "Liverpool", Postcode = "L1 4AA" },
+                new CustomerAddress { Customer = customerList[customerIndex], AddressType = AddressType.Delivery, Line1 = "12 Baine St.", Line2 = "Liverpool", Postcode = "L12 5AA" },
+                new CustomerAddress { Customer = customerList[customerIndex++], AddressType = AddressType.Secondary, Line1 = "13 New St.", Line2 = "Liverpool", Postcode = "L12 6AA" },
+
                 new CustomerAddress { Customer = customerList[customerIndex++], AddressType = AddressType.Billing, Line1 = "22 Rosewood Ave.", Line2 = "Manchester", Postcode = "M3 2LP" },
                 new CustomerAddress { Customer = customerList[customerIndex++], AddressType = AddressType.Billing, Line1 = "14 Kingfisher Rd.", Line2 = "Birmingham", Postcode = "B2 5RT" },
                 new CustomerAddress { Customer = customerList[customerIndex++], AddressType = AddressType.Billing, Line1 = "7 Oakridge Close", Line2 = "Leeds", Postcode = "LS1 3AB" },
@@ -202,29 +651,32 @@ public static class CustomerSeeder
         if (!context.CustomerNotes.Any())
         {
             context.CustomerNotes.AddRange(
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "My package was late" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "My dog ate the package" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "I will be out on Tuesday" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "Why have you sent me incontinence pads?" },
+                new CustomerNote { Customer = customerList[customerIndex], Message = "My package was late", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex], Message = "It arrived a day late", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "There was no can opener", MessageDate = RandomDate() },
 
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "Please leave parcels with my neighbour" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "I need to update my email address" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "The item arrived damaged" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "I received the wrong colour" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "I want to change my delivery slot" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "Please call before delivery" },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "My dog ate the package", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "I will be out on Tuesday", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "Why have you sent me incontinence pads?", MessageDate = RandomDate() },
 
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "The courier left the parcel in the rain" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "I need an invoice for my order" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "The packaging was excessive" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "I am still waiting for a refund" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "I will be on holiday next week" },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "Please leave parcels with my neighbour", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "I need to update my email address", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "The item arrived damaged", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "I received the wrong colour", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "I want to change my delivery slot", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "Please call before delivery", MessageDate = RandomDate() },
 
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "The product did not match the description" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "Please deliver to the back door" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "I accidentally ordered twice" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "My address has changed recently" },
-                new CustomerNote { Customer = customerList[customerIndex++], Message = "The driver was very helpful" },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "The courier left the parcel in the rain", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "I need an invoice for my order", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "The packaging was excessive", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "I am still waiting for a refund", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "I will be on holiday next week", MessageDate = RandomDate() },
+
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "The product did not match the description", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "Please deliver to the back door", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "I accidentally ordered twice", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "My address has changed recently", MessageDate = RandomDate() },
+                new CustomerNote { Customer = customerList[customerIndex++], Message = "The driver was very helpful", MessageDate = RandomDate() },
 
                 new CustomerNote { Customer = customerList[customerIndex++], Message = "I need to cancel my order" },
                 new CustomerNote { Customer = customerList[customerIndex++], Message = "The parcel was left with the wrong neighbour" },

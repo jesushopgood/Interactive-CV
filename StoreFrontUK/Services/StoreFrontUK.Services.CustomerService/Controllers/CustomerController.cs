@@ -40,6 +40,19 @@ public class CustomerController : ControllerBase
         return Ok(await _mediatr.Send(new GetCustomerExistsQuery { CustomerId = id }));
     }
 
+    [HttpGet("misters/{totalMisters}")]
+    public async Task<IActionResult> GetTotalMisters(int totalMisters)
+    {
+        return Ok(await _mediatr.Send(new GetAllMistersQuery { TotalMenRequired = totalMisters }));
+    }
+
+    [HttpGet("createDummyRun")]
+    public async Task<IActionResult> GetDummyRun()
+    {
+        await _mediatr.Send(new CreateDummyRunCommand());
+        return Ok();
+    }
+
     [HttpPost()]
     public async Task<IActionResult> CreateCustomer(CreateCustomerDTO createCustomerDTO)
     {
@@ -61,6 +74,7 @@ public class CustomerController : ControllerBase
     [HttpPut()]
     public async Task<IActionResult> UpdateCustomer(UpdateCustomerDTO updateCustomerDTO)
     {
-        return await Task.FromResult(Ok(_mediatr.Send(new UpdateCustomerCommand { Dto = updateCustomerDTO })));
+        await _mediatr.Send(new UpdateCustomerCommand { Dto = updateCustomerDTO });
+        return NoContent();
     }
 }

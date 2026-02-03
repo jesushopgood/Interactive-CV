@@ -3,14 +3,17 @@ import type { Table } from "@tanstack/react-table";
 interface TablePaginationProps<T>
 {
     table: Table<T>;
-    onRefresh: () => void;
+    onCreate?: () => void;
 }
 
-export default function TablePagination<T>({table, onRefresh} : TablePaginationProps<T>){
+export default function TablePagination<T>({table, onCreate} : TablePaginationProps<T>){
     return(
         <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
                 Page <strong>{table.getState().pagination.pageIndex + 1}</strong> of {table.getPageCount()}
+            </div>
+            <div>
+                <button className="btn btn-primary" onClick={onCreate}>Create Customer</button>
             </div>
             <div className="btn-group">
                 <button className="btn btn-sm btn-outline-primary" onClick={() => table.previousPage()} 

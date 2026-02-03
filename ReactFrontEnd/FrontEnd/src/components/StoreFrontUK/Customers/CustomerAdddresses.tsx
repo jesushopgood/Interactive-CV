@@ -1,13 +1,14 @@
-import type { ICustomerAddress } from "../../../api/entities/ICustomer";
+import { isCustomerAddress, toArray } from "../../../api/entities/ICustomer";
 
-export default function CustomerAddresses({addresses} : {addresses? : ICustomerAddress[]}){
+export default function CustomerAddresses({data} : {data? : unknown}){
     
-    if (!addresses) return;
+    if (!data) return;
+    const addresses = toArray(data, isCustomerAddress);
     
     return (
         <ul className="list-unstyled">
-            {   addresses?.map(a => 
-                <li className="list-group-numbered">{a.line1}<br/> {a.line2}<br/>{a.postcode}</li>)
+            {   addresses?.map((a, idx) => 
+                <li key={idx} className="list-group-numbered">{a.line1} {a.postcode}</li>)
             }
         </ul>
     )

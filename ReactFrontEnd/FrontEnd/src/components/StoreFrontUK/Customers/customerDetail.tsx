@@ -1,23 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCustomer, updateCustomer } from "../../../api/customers";
+import { createCustomer, getCustomer, updateCustomer } from "../../../api/customers";
 import { emptyCustomer, type ICustomer } from "../../../api/entities/ICustomer";
 import { useEffect, useState } from "react";
 import ToggledReadOnlyInput from "../Common/ReadOnlyInput";
 
-interface EntityDetailProps
+interface CustomerDetailProps
 {
-    customerId?: string;
+    entityId?: string | undefined;
     onLoaded?: (name: string) => void;
     onBackToResults?: () => void;
 }
 
-export default function CustomerDetail({customerId, onLoaded, onBackToResults} : EntityDetailProps){
-    const [isEditOn, setIsEditOn] = useState(false);
-    
+export default function CustomerDetail({entityId, onLoaded, onBackToResults} : CustomerDetailProps){
+    const isNewCustomer = entityId === undefined;
+
+    const [isEditOn, setIsEditOn] = useState(isNewCustomer);
+    const [formData, setFormData] = useState<ICustomer>(emptyCustomer);    
+
     const { data, isLoading, error } = useQuery<ICustomer>({
-        queryKey: ["customer", customerId],
+        queryKey: ["customer", entityId],
         queryFn: ({ queryKey }) => getCustomer(queryKey[1] as string),
+        enabled: !isNewCustomer
     });
 
     const queryClient = useQueryClient();
@@ -25,25 +29,38 @@ export default function CustomerDetail({customerId, onLoaded, onBackToResults} :
     const updateCustomerMutation = useMutation({
         mutationFn: (updated: ICustomer) => updateCustomer(updated),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["customer", customerId] });
+            queryClient.invalidateQueries({ queryKey: ["customer", entityId] });
+        }
+    });
+
+    const createCustomerMutation = useMutation({
+        mutationFn: (create: ICustomer) => createCustomer(create),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["customer", entityId] });
         }
     });
 
     const handleSaveClick = () => {
         setIsEditOn(prev => {
             const result = !prev;
-            if (result) updateCustomerMutation.mutate(formData);  
+            if (!result){
+                if (isNewCustomer){
+                    createCustomerMutation.mutate(formData);
+                }
+                else{
+                    updateCustomerMutation.mutate(formData);
+                }
+            }   
             return result;
         });
     };
 
-    const [formData, setFormData] = useState<ICustomer>(emptyCustomer);    
-
+    
     // We notify when we've loaded so we can pass this up to the parent tab to give the tab 
     // the name of the customer
     useEffect(() => {
         if(data) {
-            onLoaded!(`${data.customerFirstName} ${data.customerSurname}`);
+            onLoaded!(`${data.customerName.firstName} ${data.customerName.surname}`);
             setFormData(data);
         }
     }, [data])
@@ -51,11 +68,13 @@ export default function CustomerDetail({customerId, onLoaded, onBackToResults} :
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Something went wrong {error.message}</p>;
     
+    console.log(data);
+    
     return (
         <div className="container-fluid">
             <div className="d-flex justify-content-between mb-4">
                 <button className={`btn ${isEditOn ? "btn-outline-danger" : "btn-outline-primary"} m-0`} 
-                    onClick={handleSaveClick}>{isEditOn ? "Save": "Edit"}</button>
+                                            onClick={handleSaveClick}>{isEditOn || isNewCustomer ? "Save": "Edit"}</button>
                 <button className="btn  btn-outline-primary m-0" onClick={onBackToResults}>Back To Results</button>
             </div>
             <table className="table table-borderless entity-table">
@@ -68,7 +87,7 @@ export default function CustomerDetail({customerId, onLoaded, onBackToResults} :
                             <div>
                                 <ToggledReadOnlyInput<ICustomer> id="customer-title" 
                                     isReadOnly={!isEditOn} 
-                                    value={formData?.customerTitle}
+                                    value={formData?.customerName.title}
                                     onEdit={(data:ICustomer) => setFormData(data)}
                                     formData={formData}
                                     fieldName="customerTitle" />
@@ -76,7 +95,7 @@ export default function CustomerDetail({customerId, onLoaded, onBackToResults} :
                             <div className="mt-2">
                                 <ToggledReadOnlyInput<ICustomer> 
                                     isReadOnly={!isEditOn} 
-                                    value={formData?.customerFirstName}
+                                    value={formData?.customerName.firstName}
                                     onEdit={(data:ICustomer) => setFormData(data)}
                                     formData={formData}
                                     fieldName="customerFirstName" />  
@@ -84,7 +103,7 @@ export default function CustomerDetail({customerId, onLoaded, onBackToResults} :
                             <div className="mt-2">
                                 <ToggledReadOnlyInput<ICustomer> 
                                     isReadOnly={!isEditOn} 
-                                    value={formData?.customerSurname}
+                                    value={formData?.customerName.surname}
                                     onEdit={(data:ICustomer) => setFormData(data)}
                                     formData={formData}
                                     fieldName="customerSurname" />
@@ -97,11 +116,11 @@ export default function CustomerDetail({customerId, onLoaded, onBackToResults} :
                         </td>
                         <td>
                             <ToggledReadOnlyInput<ICustomer> 
-                                    isReadOnly={!isEditOn} 
-                                    value={formData?.customerEmailAddress}
-                                    onEdit={(data:ICustomer) => setFormData(data)}
-                                    formData={formData}
-                                    fieldName="customerEmailAddress" />
+                                isReadOnly={!isEditOn} 
+                                value={formData?.customerEmailAddress}
+                                onEdit={(data:ICustomer) => setFormData(data)}
+                                formData={formData}
+                                fieldName="customerEmailAddress" />
                         </td>    
                     </tr>
                     <tr>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StoreFrontUK.Services.CustomerService.Data;
 
@@ -11,9 +12,11 @@ using StoreFrontUK.Services.CustomerService.Data;
 namespace CustomerService.Migrations
 {
     [DbContext(typeof(CustomerDbContext))]
-    partial class CustomerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260130191349_Customer_ShadowProps")]
+    partial class Customer_ShadowProps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +36,18 @@ namespace CustomerService.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("CustomerEmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerSurname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -136,40 +151,6 @@ namespace CustomerService.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("CustomerNotes");
-                });
-
-            modelBuilder.Entity("StoreFrontUK.Services.CustomerService.Entities.Customer", b =>
-                {
-                    b.OwnsOne("StoreFrontUK.Services.CustomerService.Entities.CustomerName", "CustomerName", b1 =>
-                        {
-                            b1.Property<string>("CustomerId")
-                                .HasColumnType("nvarchar(450)");
-
-                            b1.Property<string>("FirstName")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("CustomerFirstName");
-
-                            b1.Property<string>("Surname")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("CustomerSurname");
-
-                            b1.Property<string>("Title")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("CustomerTitle");
-
-                            b1.HasKey("CustomerId");
-
-                            b1.ToTable("Customers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CustomerId");
-                        });
-
-                    b.Navigation("CustomerName")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("StoreFrontUK.Services.CustomerService.Entities.CustomerAddress", b =>

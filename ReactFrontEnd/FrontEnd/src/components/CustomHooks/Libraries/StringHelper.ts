@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface Segments 
 {
     word: string ;
@@ -45,6 +46,29 @@ class StringHelper
     isSegment(x: string | Segments): x is Segments {
             return typeof x !== "string";
     }
+
+    getByPath = (obj: any, path: string) => path.split('.').reduce((o, k) => o?.[k], obj);
+
+    setByPath = <T>(obj: T, path: string, value: any): T => {
+        const keys = path.split(".");
+        const last = keys.pop()!;
+
+        // clone the root
+        const newObj: any = { ...obj };
+
+        // walk and clone each level
+        let curr = newObj;
+        let original = obj as any;
+
+        for (const key of keys) {
+            curr[key] = { ...original[key] };
+            curr = curr[key];
+            original = original[key];
+        }
+
+        curr[last] = value;
+    return newObj;
+}
 
     private getDelimeterPosition(sentence: string, delimeter: string){
         const startPos = sentence.indexOf(delimeter);

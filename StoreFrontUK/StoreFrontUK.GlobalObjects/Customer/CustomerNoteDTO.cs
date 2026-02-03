@@ -7,4 +7,6 @@ public record CustomerNoteDTO
     public string CustomerId { get; set; } = string.Empty;
 
     public string Message { get; set; } = string.Empty;
+
+    public DateTime MessageDate { get; set; }
 }

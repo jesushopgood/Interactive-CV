@@ -16,4 +16,7 @@ public interface ICustomerRepository : IRepository<CustomerDbContext, Customer, 
         PaginationState paginationState,
         List<SortingState> sortingState
     );
+
+    Task<IEnumerable<Customer>> GetAllMisters(int totalMisters);
+    Task<bool> DemonstrateIdentityResolution();
 }

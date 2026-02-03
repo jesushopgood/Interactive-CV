@@ -9,8 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StoreFrontUK.Services.Common.Exceptions;
 using StoreFrontUK.Services.CustomerService.Data;
+using StoreFrontUK.Services.CustomerService.Data.Interceptors;
 using StoreFrontUK.Services.CustomerService.Mappings;
 using StoreFrontUK.Services.CustomerService.Repository;
+using StoreFrontUK.Services.StoreFrontUK.Services.Common.Interceptors;
 namespace StoreFrontUK.Services.CustomerService;
 
 internal class Program
@@ -32,7 +34,8 @@ internal class Program
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<CustomerDbContext>(options =>
+            //Enables context pooling
+            builder.Services.AddDbContextPool<CustomerDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("CustomerDb"), sqlOptions =>
                 {
@@ -43,6 +46,9 @@ internal class Program
 
                     sqlOptions.MigrationsAssembly(typeof(CustomerDbContext).Assembly.FullName);
                 });
+                options.AddInterceptors(new StoreFrontCommandInterceptor());
+                options.AddInterceptors(new CustomerAuditInterceptor());
+
             });
 
             builder.Services.AddScoped<IServiceProvider, ServiceProvider>();

@@ -14,6 +14,7 @@ public class CustomerMappingProfile : Profile
         CreateMap<CustomerNoteDTO, CustomerNote>().ReverseMap();
         CreateMap<CustomerDTO, Customer>().ReverseMap();
         CreateMap<CreateCustomerDTO, Customer>().ReverseMap();
+        CreateMap<CustomerNameDTO, CustomerName>().ReverseMap();
         CreateMap<TableQueryOptionsDTO<CustomerDTO>, TableQueryOptions<Customer>>().ReverseMap();
     }
 }

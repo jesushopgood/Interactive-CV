@@ -6,9 +6,12 @@ import codeSnippetMetaData from "../Common/CodeSnippet/CodeSnippetMeta";
 import CustomerAddresses from "./Customers/CustomerAdddresses";
 import CustomerContacts from "./Customers/CustomerContacts";
 import CustomerNotes from "./Customers/CustomerNotes";
-import CustomerDetail from "./Customers/CustomerDetail";
 import CustomerListNew from "./Customers/CustomerListNew";
 import { StoreFrontTabContainer, type TabDefinition } from "./Layout/StoreFrontTabContainer";
+import { emptyCustomer, type ICustomer } from "../../api/entities/ICustomer";
+import { EntityDetail } from "./Common/EntityDetail";
+import { createCustomer, getCustomer, updateCustomer } from "../../api/customers";
+import Address from "./Common/Address";
 
 export type entityId = string;
 
@@ -61,16 +64,20 @@ class StoreFrontWrapperActions extends WrapperActionsBase
                     <CodeSnippet 
                         title={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.title ?? ""} 
                         notes={codeSnippetMetaData.get("StoreFrontUK.CustomersList")?.notes ?? ""}>
-                        <CustomerListNew onSelectEntity={(customerId: string) => this.viewCustomerDetails(customerId)}/>
+                        <CustomerListNew onSelectEntity={(customerId: string) => this.viewCustomerDetails(customerId)}
+                                            onCreateEntity={() => this.viewCustomerDetails(undefined)} />
                     </CodeSnippet>
         }];
     }
 
-    private updateTabName(customerId: string, tabName: string){        
-        const tab = this.tabs.find(t => t.id === customerId);
-        if (!tab) return;
-        if (tab) tab.label = tabName;
+    private updateTabName(customerId: string | undefined, tabName: string){
+        if (!customerId) return;
 
+        const tab = this.tabs.find(t => t.id === (customerId ?? ""));
+        if (!tab) return;
+        
+        if (tab) tab.label = tabName;
+        
         this.notify();
     }
 
@@ -90,28 +97,48 @@ class StoreFrontWrapperActions extends WrapperActionsBase
         this.notify();
         return;
     }
-
-    private createNewTab = (entityId: string) => {
+    
+    private createNewTab = (entityId?: string) => {
         this.tabs.push({
-            id: entityId,
+            id: entityId ?? "",
             label: "Customer",
             allowClose: true,
             content: 
             <CodeSnippet 
                 title={codeSnippetMetaData.get("StoreFrontUK.CustomerDetail")?.title ?? ""} 
                 notes={codeSnippetMetaData.get("StoreFrontUK.CustomerDetail")?.notes ?? ""}>
-                <CustomerDetail customerId={entityId} 
-                                onLoaded={(tabName) => this.updateTabName(entityId, tabName)}
-                                onBackToResults={this.backToResults} />        
+                <EntityDetail<ICustomer> 
+                    entityId={entityId}
+                    emptyEntity={emptyCustomer} 
+                    onLoaded={(tabName) => this.updateTabName(entityId, tabName)}
+                    backToResults={this.backToResults} 
+                    queryKey={() => ["customer", entityId]}
+                    loadEntity={() => getCustomer(entityId!)}
+                    createEntity={(newCustomer: ICustomer) => createCustomer(newCustomer)}
+                    updateEntity={(updatedCustomer: ICustomer) => updateCustomer(updatedCustomer)}
+                    getTitle={(entity: ICustomer) => `${entity.customerName.firstName} ${entity.customerName.surname}`}
+                    fields={[
+                        {id: "customer-title", fieldName: "customerName.title", label: "Customer Name" },
+                        {id: "customer-firstname", fieldName: "customerName.firstName", label: "" },
+                        {id: "customer-surname", fieldName: "customerName.surname", label: "" },
+                        {id: "customer-emailaddress", fieldName: "customerEmailAddress", label: "Email Address" }
+                    ]}
+                    compositeControls={[
+                        {component:Address, path:"addresses", label: "Addresses"},
+                        {component:CustomerNotes, path: "customerNotes", label: "Notes"},
+                        {component:CustomerContacts, path: "customerContacts", label: "Contacts"}
+                    ]}
+                />        
             </CodeSnippet>
         });
 
-        this.activeTabId = entityId;
+        this.activeTabId = entityId ?? "";
         this.notify();
     }
     
-    viewCustomerDetails(entityId: string){
-        const existingTab = this.tabs.find(t => t.id === entityId);
+    viewCustomerDetails(entityId?: string){
+        const existingTab = this.tabs.find(t => t.id === (entityId ?? ""));
+
         if (existingTab)
             this.selectExistingTab(existingTab.id);
         else
@@ -134,7 +161,7 @@ class StoreFrontWrapperActions extends WrapperActionsBase
             <StoreFrontWrapper>
                 <StoreFrontTabContainer>
                     <CustomerListNew />
-                    <CustomerDetail />
+                    <EntityDetail />
                     <CustomerAddresses />
                     <CustomerNotes  />
                     <CustomerContacts />

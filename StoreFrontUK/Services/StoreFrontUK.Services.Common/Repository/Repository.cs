@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using StoreFrontUK.GlobalObjects.Customer;
 using StoreFrontUK.Services.Common.Exceptions;
 
 namespace StoreFrontUK.Services.Common.Repository;
@@ -40,11 +41,10 @@ public abstract class Repository<Context, Entity, Key> : IRepository<Context, En
     {
         IQueryable<Entity> query = _context.Set<Entity>().AsNoTracking();
         query = await AppendIncludesAsync(query, includes);
-
         return await GetByKey(id, query, keySelector);
     }
 
-    public async Task Update(Entity entity)
+    public virtual async Task Update(Entity entity)
     {
         var entityKey = entity.GetKey();
         var entityToUpdate = _context.Set<Entity>().Find(entityKey);
@@ -52,6 +52,12 @@ public abstract class Repository<Context, Entity, Key> : IRepository<Context, En
         if (entityToUpdate is null)
             throw new NotFoundException($"The {entity.GetType().Name} {entityKey} is not found");
 
+        _context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
+
+        //Manual Logging
+        await LogChanges(entityToUpdate);
+        //Built in Logging
+        Console.WriteLine(_context.ChangeTracker.DebugView.LongView);
         await _context.SaveChangesAsync();
     }
 
@@ -60,8 +66,7 @@ public abstract class Repository<Context, Entity, Key> : IRepository<Context, En
         var entityKey = entity.GetKey();
 
         if (_context.Set<Entity>().Find(entity.GetKey()) is not null)
-            throw new AlreadyExistsException($"{entity.GetType().Name} ${entityKey} already exists! ");
-
+            throw new AlreadyExistsException($"{entity.GetType().Name} {entityKey} already exists! ");
         await _context.Set<Entity>().AddAsync(entity);
         await _context.SaveChangesAsync();
         return await Task.FromResult(entity);
@@ -80,7 +85,7 @@ public abstract class Repository<Context, Entity, Key> : IRepository<Context, En
             keySelector.Parameters
         ));
 
-        return await Task.FromResult(result);
+        return result;
     }
 
     protected async Task<IQueryable<Entity>> AppendIncludesAsync(IQueryable<Entity> query, params Expression<Func<Entity, object>>[] includes)
@@ -89,5 +94,25 @@ public abstract class Repository<Context, Entity, Key> : IRepository<Context, En
             query = query.Include(include);
 
         return query;
+    }
+
+    protected async Task LogChanges(Entity changedEntity)
+    {
+        var currentEntityState = _context.Entry(changedEntity).State;
+
+        Console.WriteLine("Changed Properties");
+        Console.WriteLine("------------------");
+        Console.WriteLine($"Entity State {currentEntityState}");
+
+        var changedProperties = _context.Entry(changedEntity)
+            .Properties
+            .Where(x => x.IsModified)
+            .Select(p => new { p.Metadata.Name, p.OriginalValue, p.CurrentValue })
+            .ToList();
+
+        foreach (var item in changedProperties)
+        {
+            Console.WriteLine($"Name {item.Name} Original Value: {item.OriginalValue} Current Value {item.CurrentValue}");
+        }
     }
 }

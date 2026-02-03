@@ -14,13 +14,11 @@ import {
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import CustomerAddresses from "./CustomerAdddresses";
-import CustomerNotes from "./CustomerNotes";
-import CustomerContacts from "./CustomerContacts";
 import TablePagination from "./TablePagination";
 import EntityListTable from "../../Common/EntityListTable";
 import type EntityListProps from "../Common/EntityHandlers";
 
-export default function CustomerListNew({ onSelectEntity }: EntityListProps<string>) {
+export default function CustomerListNew({ onSelectEntity, onCreateEntity }: EntityListProps<string>) {
 
     //Store objects for Sorting, Pagination, Filtering
     const [tableSortingState, setTableSortingState] = useState<SortingState>([]);
@@ -33,7 +31,7 @@ export default function CustomerListNew({ onSelectEntity }: EntityListProps<stri
         columnFilterState: columnFilters
     }), [tableSortingState, tablePaginationState, columnFilters]);
 
-    const { data, isLoading, error, refetch } = useQuery({
+    const { data, isLoading, error } = useQuery({
         //Acts as a caching key for data.  The query will use the cache if the key is the same or 
         //the staleTime expires...
         queryKey: ["customers", queryKeyFilters],
@@ -46,13 +44,13 @@ export default function CustomerListNew({ onSelectEntity }: EntityListProps<stri
         const columnHelper = createColumnHelper<ICustomer>();
 
         return [
-            columnHelper.accessor("customerTitle", {
+            columnHelper.accessor("customerName.title", {
                 header: "Title"
             }),
-            columnHelper.accessor("customerFirstName", {
+            columnHelper.accessor("customerName.firstName", {
                 header: "First Name",
             }),
-            columnHelper.accessor("customerSurname", {
+            columnHelper.accessor("customerName.surname", {
                 header: "Surname",
             }),
             columnHelper.accessor("customerEmailAddress", {
@@ -67,28 +65,11 @@ export default function CustomerListNew({ onSelectEntity }: EntityListProps<stri
                 {
                     id: "addresses",
                     header: "Addresses",
-                    cell: info => <CustomerAddresses addresses={info.getValue()} />,
+                    cell: info => <CustomerAddresses data={info.getValue()} />,
                     enableSorting: false,
                     enableColumnFilter: false
                 }
-            ),
-            columnHelper.accessor(
-                row => Array.isArray(row.customerNotes) ? row.customerNotes : [],
-                {
-                    id: "customerNotes",
-                    header: "Notes",
-                    cell: info => <CustomerNotes customerNotes={info.getValue()} />,
-                    enableSorting: false,
-                    enableColumnFilter: false
-                }
-            ),
-            columnHelper.accessor("customerContacts", {
-                id: "customerContacts",
-                header: "Contacts",
-                cell: info => <CustomerContacts customerContacts={info.getValue()} />,
-                enableSorting: false,
-                enableColumnFilter: false
-            }),
+            )
         ];
     }, []);
     
@@ -125,9 +106,9 @@ export default function CustomerListNew({ onSelectEntity }: EntityListProps<stri
 
     return (
         <>
-            <TablePagination onRefresh={() => refetch()} table={table} />
+            <TablePagination onCreate={onCreateEntity} table={table} />
             <EntityListTable table={table} onSelectEntity={onSelectEntity}/>    
-            <TablePagination table={table} onRefresh={() => refetch()} />
+            <TablePagination onCreate={onCreateEntity} table={table}  />
         </>
     );
 }

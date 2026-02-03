@@ -17,8 +17,13 @@ export const postCustomerFilter = async (pageSortFilter: IPageSortFilter) => {
   return response.data;
 }
 
-export const updateCustomer = async(data: ICustomer) => {
+export const updateCustomer = async(data: ICustomer) => {  
   const response = await customerApi.put("api/Customer", data);
+  return response.data;
+}
+
+export const createCustomer = async(data: ICustomer) => {
+  const response = await customerApi.post("api/Customer", data);
   return response.data;
 }
 

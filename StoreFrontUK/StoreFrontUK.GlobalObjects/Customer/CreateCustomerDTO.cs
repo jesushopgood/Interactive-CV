@@ -6,7 +6,7 @@ public record CreateCustomerDTO
 {
     public string CustomerId { get; set; } = string.Empty;
 
-    public string CustomerName { get; set; } = string.Empty;
+    public CustomerNameDTO CustomerName { get; set; } = new();
 
     public string CustomerEmailAddress { get; set; } = string.Empty;
 }

@@ -1,14 +1,19 @@
 namespace StoreFrontUK.GlobalObjects.Customer;
 
+public record CustomerNameDTO
+{
+    public string Title { get; set; } = string.Empty;
+
+    public string FirstName { get; set; } = string.Empty;
+
+    public string Surname { get; set; } = string.Empty;
+}
+
 public record CustomerDTO
 {
     public string CustomerId { get; set; } = string.Empty;
 
-    public string CustomerTitle { get; set; } = string.Empty;
-
-    public string CustomerFirstName { get; set; } = string.Empty;
-
-    public string CustomerSurname { get; set; } = string.Empty;
+    public CustomerNameDTO CustomerName { get; set; } = new();
 
     public string CustomerEmailAddress { get; set; } = string.Empty;
 
