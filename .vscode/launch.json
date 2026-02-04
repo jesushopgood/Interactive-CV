@@ -7,6 +7,13 @@
     "version": "0.2.0",
     "configurations": [
     {
+      "name": "StockService Azure Functions",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:azureFunctions.pickProcess}",
+      "preLaunchTask": "func: host start"
+    },
+    {
       "name": "React Frontend (Vite)",
       "type": "node",
       "request": "launch",

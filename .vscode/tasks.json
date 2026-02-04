@@ -2,6 +2,16 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "func: host start",
+      "type": "shell",
+      "command": "func start",
+      "isBackground": true,
+      "problemMatcher": "$func-watch",
+      "options": {
+        "cwd": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.StockService/Functions"
+      }
+    },
+    {
       "label": "build-customer-service",
       "command": "dotnet",
       "type": "process",
@@ -58,7 +68,7 @@
         "build-inventory-service",
         "build-order-service",
         "build-email-service",
-        "pick-service"
+        "pick-service",
       ],
       "dependsOrder": "sequence",
       "group": {
