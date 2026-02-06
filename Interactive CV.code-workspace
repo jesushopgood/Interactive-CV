@@ -6,6 +6,7 @@
 	],
 	"settings": {
 		"git.ignoreLimitWarning": true,
-		"debug.internalConsoleOptions": "neverOpen"
+		"debug.internalConsoleOptions": "neverOpen",
+		"azureFunctions.showTargetFrameworkWarning": false
 	}
 }

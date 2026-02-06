@@ -7,11 +7,27 @@
     "version": "0.2.0",
     "configurations": [
     {
+      "name": "Attach to StockService Worker",
+      "type": "coreclr",
+      "request": "attach"
+    },  
+    {
       "name": "StockService Azure Functions",
       "type": "coreclr",
-      "request": "attach",
-      "processId": "${command:azureFunctions.pickProcess}",
-      "preLaunchTask": "func: host start"
+      "request": "launch",
+      "preLaunchTask": "start-functions-host",
+      "program": "${command:azureFunctions.pickProcess}",
+      "azureFunctions.pickProcessArguments": {
+        "processName": "StockService.dll",
+        "processCommandLineFilter": "bin/output"
+      },
+      "cwd": "${workspaceFolder}/StoreFrontUK/Services/StoreFrontUK.Services.StockService",
+      "console": "integratedTerminal",
+      "env": {
+        "ASPNETCORE_DETAILEDERRORS": "true",
+        "DOTNET_ENVIRONMENT": "Development",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     },
     {
       "name": "React Frontend (Vite)",

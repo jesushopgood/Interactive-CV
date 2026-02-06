@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "Functions": {
+    "StoreFrontUK_Services_StockService": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7171",
+      "commandLineArgs": "--port 7190",
       "launchBrowser": false
     }
   }
