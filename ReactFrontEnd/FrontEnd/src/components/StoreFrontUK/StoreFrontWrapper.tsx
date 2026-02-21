@@ -112,6 +112,7 @@ class StoreFrontWrapperActions extends WrapperActionsBase
                     emptyEntity={emptyCustomer} 
                     onLoaded={(tabName) => this.updateTabName(entityId, tabName)}
                     backToResults={this.backToResults} 
+                    showImageUpload={true}
                     queryKey={() => ["customer", entityId]}
                     loadEntity={() => getCustomer(entityId!)}
                     createEntity={(newCustomer: ICustomer) => createCustomer(newCustomer)}

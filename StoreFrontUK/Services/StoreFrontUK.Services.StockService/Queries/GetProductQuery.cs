@@ -1,7 +1,7 @@
 using MediatR;
 using StoreFrontUK.GlobalObjects.Inventory;
 
-namespace StoreFrontUK.Services.InventoryService.Queries;
+namespace StoreFrontUK.Services.StockService.Queries;
 
 public record GetProductQuery : IRequest<ProductDTO>
 {

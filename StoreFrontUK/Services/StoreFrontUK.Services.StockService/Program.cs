@@ -1,13 +1,18 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using StoreFrontUK.Services.InventoryService.Repostories;
 using Microsoft.EntityFrameworkCore;
 using StoreFrontUK.Services.StockService.Data;
-using StoreFrontUK.Services.InventoryService.Mappings;
+using StoreFrontUK.Services.StockService.Repostories;
+using StoreFrontUK.Services.StockService.Mappings;
+using Microsoft.Extensions.Configuration;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
-    .ConfigureServices(services =>
+    .ConfigureAppConfiguration((context, config) =>
+    {
+        config.AddJsonFile("local.settings.json", optional: true, reloadOnChange: true);
+    })
+    .ConfigureServices((context, services) =>
     {
         // Register MediatR and scan the current assembly for handlers
         services.AddMediatR(cfg =>
@@ -17,7 +22,9 @@ var host = new HostBuilder()
 
         services.AddDbContextPool<StockDbContext>(options =>
         {
-            options.UseSqlServer("dummyString", sqlOptions =>
+            var config = context.Configuration;
+
+            options.UseSqlServer(config["ProductDb"], sqlOptions =>
             {
                 sqlOptions.EnableRetryOnFailure(
                 maxRetryCount: 5,

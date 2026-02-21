@@ -2,7 +2,7 @@ using StoreFrontUK.Services.Common.Repository;
 using StoreFrontUK.Services.StockService.Data;
 using StoreFrontUK.Services.StockService.Entities;
 
-namespace StoreFrontUK.Services.InventoryService.Repostories;
+namespace StoreFrontUK.Services.StockService.Repostories;
 
 public class ProductRepository : Repository<StockDbContext, Product, string>, IProductRepository
 {

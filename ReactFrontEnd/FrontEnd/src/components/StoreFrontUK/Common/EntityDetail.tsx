@@ -3,8 +3,9 @@ import { useEffect, useRef, useState, type JSX } from "react";
 import ToggledReadOnlyInput from "./ReadOnlyInput";
 import { TabContainer } from "../../Common/Layout/TabContainer";
 import { StringHelper } from "../../CustomHooks/Libraries/StringHelper";
+import { ImageUploader } from "./ImageUploader";
 
-interface EntityField<T>
+interface EntityField
 {
     id: string;
     label: string;
@@ -22,6 +23,7 @@ export interface EntityDetailsProps<T>
 {
   entityId?: string;
   emptyEntity: T;
+  showImageUpload: boolean;
   backToResults?: () => void;
   queryKey: (id?: string) => unknown[];
   loadEntity: (id: string) => Promise<T>;
@@ -29,7 +31,7 @@ export interface EntityDetailsProps<T>
   updateEntity: (entity: T) => Promise<unknown>;
   onLoaded?: (title: string) => void;
   getTitle: (entity: T) => string;
-  fields: Array<EntityField<T>>;
+  fields: Array<EntityField>;
   compositeControls: CompositeControl[]; 
 };
 
@@ -93,7 +95,6 @@ export function EntityDetail<T>(props: EntityDetailsProps<T>) {
         });
     };
 
-
     // We notify when we've loaded so we can pass this up to the parent tab to give the tab 
     // the name of the entity
     useEffect(() => {
@@ -134,6 +135,13 @@ export function EntityDetail<T>(props: EntityDetailsProps<T>) {
                 </tbody>
             </table>
             
+            {
+            props.showImageUpload &&
+            <div className="container-fluid d-flex my-2 justify-content-end">
+                <ImageUploader entityKey={props.entityId!}/>
+            </div> 
+            
+            }
             
             <TabContainer tabs={ compositeControls.map((cf, idx) => {
                 const Component= cf.component;

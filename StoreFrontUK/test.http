@@ -1,0 +1,32 @@
+POST http://localhost:7071/api/GetProductsFromSkus
+Content-Type: application/json
+
+{
+  "Skus": [
+    "SK1",
+    "SK2",
+    "SK3"
+  ]
+}
+
+###
+
+POST http://localhost:7071/api/CreateProduct
+Content-Type: application/json
+
+{
+  "Sku": "SK2113",
+  "Description": "Stretch Extracter",
+  "CanReorder": false
+}
+
+###
+
+PUT http://localhost:7071/api/UpdateProduct
+Content-Type: application/json
+
+{
+  "Sku": "SK2",
+  "Description": "Humungothon",
+  "CanReorder": true
+}

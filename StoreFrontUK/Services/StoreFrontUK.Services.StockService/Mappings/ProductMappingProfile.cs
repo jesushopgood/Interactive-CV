@@ -3,7 +3,7 @@ using StoreFrontUK.GlobalObjects.Inventory;
 using StoreFrontUK.Services.PickService.Models;
 using StoreFrontUK.Services.StockService.Entities;
 
-namespace StoreFrontUK.Services.InventoryService.Mappings;
+namespace StoreFrontUK.Services.StockService.Mappings;
 
 public class ProductMappingProfile : Profile
 {
@@ -17,5 +17,7 @@ public class ProductMappingProfile : Profile
 
         //CreateMap<PickOrderRequest, InternalPickOrderCommand>();
         CreateMap<PickOrderItem, PickResponseItem>();
+        CreateMap<ProductDTO, CreateProductDTO>().ReverseMap();
+        CreateMap<ProductDTO, UpdateProductDTO>().ReverseMap();
     }
 }

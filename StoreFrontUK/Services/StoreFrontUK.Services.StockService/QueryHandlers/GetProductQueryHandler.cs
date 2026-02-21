@@ -1,8 +1,10 @@
 using AutoMapper;
 using MediatR;
 using StoreFrontUK.GlobalObjects.Inventory;
-using StoreFrontUK.Services.InventoryService.Queries;
-using StoreFrontUK.Services.InventoryService.Repostories;
+using StoreFrontUK.Services.StockService.Queries;
+using StoreFrontUK.Services.StockService.Repostories;
+
+namespace StoreFrontUK.Services.StockService.QueryHandlers;
 
 public class GetProductQueryHandler : IRequestHandler<GetProductQuery, ProductDTO?>
 {
